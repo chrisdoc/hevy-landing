@@ -2,6 +2,7 @@
 	"$schema": "./node_modules/wrangler/config-schema.json",
 	"name": "hevy-mcp-landing",
 	"compatibility_date": "2026-07-20",
+	"routes": [{ "pattern": "hevy-mcp.dev", "custom_domain": true }],
 	"assets": {
 		"directory": "./dist",
 		"not_found_handling": "404-page"
