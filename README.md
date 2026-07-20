@@ -15,6 +15,8 @@ The site uses Astro with strict TypeScript and small vanilla-TypeScript interact
 
 ```sh
 npm run check
+export PUBLIC_UMAMI_SCRIPT_URL=https://analytics.example/script.js
+export PUBLIC_UMAMI_WEBSITE_ID=your-site-uuid
 npm run build
 npm run deploy:dry-run
 ```
@@ -23,7 +25,7 @@ The production output is generated in `dist/`. Wrangler publishes that directory
 
 ## Content maintenance
 
-- Transport and client instructions live in `src/data/setup.ts` and feed the setup guide.
+- Transport and client instructions live in `src/data/setup.ts` and feed the generated docs and homepage setup overview.
 - Setup claims and commands should remain synchronized with the upstream Hevy MCP README.
 - Public examples must use placeholders. The optional key check sends the entered value directly from the browser to Hevy's official `/v1/user/info` endpoint. The landing-site Worker never receives, proxies, stores, or records the key, and the page does not persist it.
 - The demo video and poster remain static assets under `public/demo/` for direct viewing; the landing page links to the full-resolution recording instead of embedding it.

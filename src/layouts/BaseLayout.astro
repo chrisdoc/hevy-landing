@@ -8,10 +8,27 @@ interface Props {
 	title: string;
 	description: string;
 	canonicalPath?: string;
+	noindex?: boolean;
+	includeSoftwareSchema?: boolean;
 }
 
-const { title, description, canonicalPath = "/" } = Astro.props;
+const {
+	title,
+	description,
+	canonicalPath = "/",
+	noindex = false,
+	includeSoftwareSchema = false,
+} = Astro.props;
 const canonical = new URL(canonicalPath, Astro.site ?? Astro.url);
+const umamiScriptUrl = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL;
+const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
+
+if (import.meta.env.PROD && !umamiScriptUrl) {
+	throw new Error("Missing required PUBLIC_UMAMI_SCRIPT_URL for production build");
+}
+if (import.meta.env.PROD && !umamiWebsiteId) {
+	throw new Error("Missing required PUBLIC_UMAMI_WEBSITE_ID for production build");
+}
 ---
 
 <!doctype html>
@@ -23,7 +40,12 @@ const canonical = new URL(canonicalPath, Astro.site ?? Astro.url);
 		<meta name="theme-color" content="#007A82" />
 		<link rel="preload" href={archivoLatin} as="font" type="font/woff2" crossorigin />
 		<meta name="color-scheme" content="light" />
-		<link rel="canonical" href={canonical} />
+		{noindex ? (
+			<meta name="robots" content="noindex, nofollow" />
+		) : (
+			<link rel="canonical" href={canonical} />
+		)}
+		<link rel="sitemap" href="/sitemap-index.xml" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta property="og:type" content="website" />
 		<meta property="og:title" content={title} />
@@ -35,20 +57,48 @@ const canonical = new URL(canonicalPath, Astro.site ?? Astro.url);
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={new URL("/og-card.png", canonical)} />
 		<title>{title}</title>
-		<script is:inline type="application/ld+json" set:html={JSON.stringify({
-			"@context": "https://schema.org",
-			"@type": "SoftwareApplication",
-			name: "Hevy MCP",
-			applicationCategory: "DeveloperApplication",
-			operatingSystem: "Cross-platform",
-			description,
-			url: canonical.toString(),
-			license: "https://opensource.org/licenses/MIT",
-			codeRepository: "https://github.com/chrisdoc/hevy-mcp",
-		})} />
+		{includeSoftwareSchema && !noindex && (
+			<script is:inline type="application/ld+json" set:html={JSON.stringify({
+				"@context": "https://schema.org",
+				"@type": "SoftwareApplication",
+				name: "Hevy MCP",
+				applicationCategory: "DeveloperApplication",
+				operatingSystem: "Cross-platform",
+				description,
+				url: canonical.toString(),
+				license: "https://opensource.org/licenses/MIT",
+				codeRepository: "https://github.com/chrisdoc/hevy-mcp",
+			})} />
+		)}
 	</head>
 	<body>
 		<a class="skip-link" href="#main-content">Skip to content</a>
 		<slot />
+		{umamiScriptUrl && umamiWebsiteId && (
+			<>
+				<script
+					is:inline
+					defer
+					src={umamiScriptUrl}
+					data-website-id={umamiWebsiteId}
+					data-domains="hevy-mcp.dev"
+					data-do-not-track="true"
+					data-exclude-hash="true"
+				></script>
+				<script is:inline>
+					const umamiScript = document.querySelector('script[data-website-id]');
+					if (umamiScript) {
+						umamiScript.addEventListener("load", () => {
+							window.__hevyUmamiReady = true;
+							window.dispatchEvent(new CustomEvent("hevy:umami-ready"));
+						}, { once: true });
+					}
+				</script>
+			</>
+		)}
+		<script>
+			import { initializeSetupActions } from "../scripts/setup-actions";
+			initializeSetupActions();
+		</script>
 	</body>
 </html>

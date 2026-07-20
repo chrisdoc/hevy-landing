@@ -1,0 +1,44 @@
+---
+import DocsLayout from "../../layouts/DocsLayout.astro";
+
+const title = "Documentation — Hevy MCP";
+const description = "Set up Hevy MCP with browser sign-in, Direct HTTPS, or local stdio.";
+---
+
+<DocsLayout {title} {description} canonicalPath="/docs/" breadcrumbs={[{ label: "Docs" }]}>
+	<header class="docs-hero">
+		<p class="context-line">Hevy MCP documentation</p>
+		<h1>Choose the connection that fits your client.</h1>
+		<p class="docs-lead">Browser sign-in is the shortest path. Direct HTTPS and local stdio keep the same 25 focused tools available for clients with different connection capabilities.</p>
+	</header>
+
+	<section class="docs-card-grid" aria-labelledby="docs-start-title">
+		<h2 id="docs-start-title" class="sr-only">Documentation paths</h2>
+		<a class="docs-card docs-card--primary" href="/docs/getting-started/">
+			<span class="eyebrow">Start here</span>
+			<strong>Getting started</strong>
+			<span>Choose a method, configure your assistant, and ask which Hevy account is connected.</span>
+		</a>
+		<a class="docs-card" href="/docs/connect/">
+			<span class="eyebrow">Compare</span>
+			<strong>Connection methods</strong>
+			<span>Review browser sign-in, Direct HTTPS, and local stdio before setup.</span>
+		</a>
+		<a class="docs-card" href="/docs/clients/">
+			<span class="eyebrow">Configure</span>
+			<strong>Client guides</strong>
+			<span>Follow focused paths for Claude.ai, Codex, Claude Desktop, Cursor, or another compatible client.</span>
+		</a>
+		<a class="docs-card" href="/docs/troubleshooting/">
+			<span class="eyebrow">Unblock</span>
+			<strong>Troubleshooting</strong>
+			<span>Fix common authentication, restart, version, and client connection problems.</span>
+		</a>
+	</section>
+
+	<section class="docs-callout" aria-labelledby="docs-trust-title">
+		<p class="eyebrow">Before you connect</p>
+		<h2 id="docs-trust-title">Hevy PRO API access is required.</h2>
+		<p>Hevy MCP is free and MIT licensed. Read the <a href="/security/">security details</a> to see how each method handles credentials and mutations.</p>
+	</section>
+</DocsLayout>

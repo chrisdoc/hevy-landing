@@ -1,0 +1,51 @@
+---
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import DocsSidebar from "../components/DocsSidebar.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import BaseLayout from "./BaseLayout.astro";
+
+interface Breadcrumb {
+	label: string;
+	href?: string;
+}
+
+interface PageLink {
+	label: string;
+	href: string;
+}
+
+interface Props {
+	title: string;
+	description: string;
+	canonicalPath: string;
+	breadcrumbs: readonly Breadcrumb[];
+	previous?: PageLink;
+	next?: PageLink;
+}
+
+const { title, description, canonicalPath, breadcrumbs, previous, next } = Astro.props;
+---
+
+<BaseLayout {title} {description} {canonicalPath}>
+	<div id="top"></div>
+	<SiteHeader />
+	<main id="main-content" class="docs-page">
+		<div class="container docs-shell">
+			<Breadcrumbs items={breadcrumbs} />
+			<div class="docs-layout">
+				<DocsSidebar currentPath={Astro.url.pathname} />
+				<article class="docs-content">
+					<slot />
+				</article>
+			</div>
+			{(previous || next) && (
+				<nav class="docs-pagination" aria-label="Page navigation">
+					{previous ? <a href={previous.href}><span>Previous</span>{previous.label}</a> : <span />}
+					{next ? <a href={next.href}><span>Next</span>{next.label}</a> : <span />}
+				</nav>
+			)}
+		</div>
+	</main>
+	<SiteFooter />
+</BaseLayout>

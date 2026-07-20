@@ -1,40 +1,5 @@
 ---
-const faqs = [
-	{
-		question: "What is Hevy MCP?",
-		answer:
-			"Hevy MCP is an open-source connector that lets Claude, Cursor, Codex, and other MCP clients read, analyze, create, and update data in your Hevy account.",
-	},
-	{
-		question: "Do I need Hevy PRO?",
-		answer: "Yes. A Hevy API key is required, and API access currently requires a Hevy PRO subscription.",
-	},
-	{
-		question: "Do I need to install anything?",
-		answer:
-			"No for browser sign-in. The hosted endpoint requires no Node.js, Bun, Docker, environment variables, or local server process. Local mode uses npx, Bun, or Docker; local npx usage requires Node.js 20 or newer.",
-	},
-	{
-		question: "Which assistants work with Hevy MCP?",
-		answer:
-			"The setup includes paths for Claude.ai, Codex, Claude Desktop, Cursor, and other compatible MCP clients. The available connection method depends on whether your client supports browser OAuth, Streamable HTTP, or local stdio.",
-	},
-	{
-		question: "Is my Hevy API key stored?",
-		answer:
-			"The optional browser key check sends your key directly to Hevy and does not send it to this landing site. Browser sign-in validates the key and stores it encrypted inside the OAuth grant. Direct HTTPS validates the key per request without storing it. Local mode passes the key through your local process environment.",
-	},
-	{
-		question: "Can Hevy MCP change my workouts?",
-		answer:
-			"Yes. It can create and update workouts, routines, custom exercises, and body measurements. Compatible clients can request confirmation before mutation tools run, so review the proposed change before approving it.",
-	},
-	{
-		question: "Is this an official Hevy product?",
-		answer:
-			"No. Hevy MCP is an independent open-source project and is not affiliated with or endorsed by Hevy.",
-	},
-] as const;
+import { featured } from "../data/faqs";
 ---
 
 <section class="faq-section section" id="faq" aria-labelledby="faq-title">
@@ -51,12 +16,14 @@ const faqs = [
 		</div>
 
 		<div class="faq-list">
-			{faqs.map((faq) => (
-				<details>
+			{featured.map((faq) => (
+				<details id={`home-${faq.id}`}>
 					<summary>{faq.question}</summary>
 					<p>{faq.answer}</p>
+					{faq.more && <a class="text-link" href={faq.more.href}>{faq.more.label} <span aria-hidden="true">→</span></a>}
 				</details>
 			))}
 		</div>
+		<p class="faq-section__more"><a class="text-link" href="/faq/">Read all FAQ answers <span aria-hidden="true">→</span></a></p>
 	</div>
 </section>

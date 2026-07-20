@@ -1,0 +1,37 @@
+---
+import DocsLayout from "../../layouts/DocsLayout.astro";
+
+const title = "Troubleshooting — Hevy MCP";
+const description = "Fix common Hevy MCP configuration, authentication, and client connection problems.";
+---
+
+<DocsLayout {title} {description} canonicalPath="/docs/troubleshooting/" breadcrumbs={[{ label: "Docs", href: "/docs/" }, { label: "Troubleshooting" }]} previous={{ label: "Client guides", href: "/docs/clients/" }} next={{ label: "Security", href: "/security/" }}>
+	<header class="docs-hero">
+		<p class="context-line">Troubleshooting</p>
+		<h1>Fix the common connection problems first.</h1>
+		<p class="docs-lead">Most setup failures are fixed by checking the method, keeping the credential private, and restarting or reconnecting the client after configuration changes.</p>
+	</header>
+
+	<div class="troubleshooting-list">
+		<details open>
+			<summary>The client cannot see the server after I saved the configuration.</summary>
+			<div><p>Restart the client or begin a new session. For Claude Desktop and Cursor, confirm the JSON file path and that the process can run <code>npx -y hevy-mcp</code>. For Codex, run <code>codex mcp list</code> after restarting.</p><p>Use the <a href="/docs/clients/">client guide</a> to compare the exact command and configuration.</p></div>
+		</details>
+		<details>
+			<summary>Local npx setup fails before the server starts.</summary>
+			<div><p>Use Node.js 20 or newer. Confirm that <code>HEVY_API_KEY</code> is present in the child process environment and that the client launches the command over local stdio.</p><p>For every local client, restart or reconnect after changing the environment or configuration.</p></div>
+		</details>
+		<details>
+			<summary>Direct HTTPS returns an authentication error.</summary>
+			<div><p>Direct HTTPS needs a fixed <code>Authorization: Bearer your-hevy-api-key</code> header. The bearer value is your Hevy API key, and Hevy PRO API access is required. Never put the key in a URL.</p><p>The hosted endpoint validates the key with Hevy on every request and does not store it. Recreate the key in <a href="https://hevy.com/settings?developer">Hevy API settings</a> if it was rotated or rejected.</p></div>
+		</details>
+		<details>
+			<summary>Browser sign-in does not open or complete.</summary>
+			<div><p>Browser sign-in requires an OAuth 2.1-compatible remote MCP client. Add <code>https://hevy.chrisdoc.dev/mcp</code> as the remote server, allow the browser authorization flow, and reconnect the client after approval.</p><p>If the client only supports fixed headers or local stdio, use the matching <a href="/docs/connect/">method instead</a>.</p></div>
+		</details>
+		<details>
+			<summary>The first question does not return the expected account.</summary>
+			<div><p>Ask exactly “Which Hevy account is connected?” after restarting or reconnecting. Check that the key belongs to the intended Hevy PRO account, then repeat the method-specific setup.</p><p>The optional key check is a diagnostic only; a successful check does not activate an MCP client.</p></div>
+		</details>
+	</div>
+</DocsLayout>

@@ -1,0 +1,20 @@
+---
+import { transportModes } from "../data/setup";
+---
+
+<section class="security-summary section" aria-labelledby="security-summary-title">
+	<div class="container">
+		<div class="section-heading section-heading--split">
+			<div>
+				<p class="context-line">Credential clarity</p>
+				<h2 id="security-summary-title">Know how your key is handled before you connect.</h2>
+			</div>
+			<p>Each method has a different credential boundary. Choose with the behavior visible.</p>
+		</div>
+		<div class="security-summary__modes">
+			{transportModes.map((mode) => <article><h3>{mode.label}</h3><p>{mode.security}</p></article>)}
+		</div>
+		<p class="security-summary__mutation">Hevy MCP exposes read tools and create/update tools. Compatible clients can ask for confirmation before a mutation runs; review inputs before approving.</p>
+		<a class="text-link" href="/security/">Read the security details <span aria-hidden="true">→</span></a>
+	</div>
+</section>

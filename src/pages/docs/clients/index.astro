@@ -1,0 +1,34 @@
+---
+import { getClientGuide } from "../../../data/setup";
+import { clientOrder } from "../../../data/site-navigation";
+import DocsLayout from "../../../layouts/DocsLayout.astro";
+
+const title = "Client guides — Hevy MCP";
+const description = "Connect Hevy MCP to Claude.ai, Codex, Claude Desktop, Cursor, or another compatible MCP client.";
+const clients = clientOrder.map(getClientGuide);
+---
+
+<DocsLayout {title} {description} canonicalPath="/docs/clients/" breadcrumbs={[{ label: "Docs", href: "/docs/" }, { label: "Client guides" }]} previous={{ label: "Connection methods", href: "/docs/connect/" }} next={{ label: "Troubleshooting", href: "/docs/troubleshooting/" }}>
+	<header class="docs-hero">
+		<p class="context-line">Client guides</p>
+		<h1>Configure the assistant you already use.</h1>
+		<p class="docs-lead">Each guide uses the shared setup data and only shows methods that client supports. Follow the guide in order, then ask the read-only account question.</p>
+	</header>
+
+	<section class="client-grid" aria-labelledby="client-list-title">
+		<h2 id="client-list-title" class="sr-only">Supported clients</h2>
+		{clients.map((client) => (
+			<a class="docs-card" href={`/docs/clients/${client.slug}/`} data-client-guide data-client-id={client.slug}>
+				<span class="eyebrow">Client guide</span>
+				<strong>{client.label}</strong>
+				<span>{client.summary}</span>
+			</a>
+		))}
+	</section>
+
+	<section class="docs-callout" aria-labelledby="compatibility-title">
+		<p class="eyebrow">Another client?</p>
+		<h2 id="compatibility-title">Check its MCP transport support.</h2>
+		<p>Works with another client? Check its OAuth 2.1, Streamable HTTP, or local stdio support, then choose the matching <a href="/docs/connect/">connection method</a>.</p>
+	</section>
+</DocsLayout>

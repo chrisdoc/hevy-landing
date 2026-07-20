@@ -1,0 +1,28 @@
+---
+import { faqs } from "../data/faqs";
+import DocsLayout from "../layouts/DocsLayout.astro";
+
+const title = "FAQ — Hevy MCP";
+const description = "Answers about Hevy PRO, supported AI assistants, credentials, workout changes, and setup.";
+---
+
+<DocsLayout {title} {description} canonicalPath="/faq/" breadcrumbs={[{ label: "FAQ" }]} previous={{ label: "Security", href: "/security/" }} next={{ label: "Getting started", href: "/docs/getting-started/" }}>
+	<header class="docs-hero">
+		<p class="context-line">Frequently asked questions</p>
+		<h1>Answers before you connect.</h1>
+		<p class="docs-lead">Hevy MCP is free and open source. Hevy PRO is required for API access, and the connection method controls how your credential is handled.</p>
+	</header>
+
+	<section class="faq-page-list" aria-labelledby="faq-page-title">
+		<h2 id="faq-page-title" class="sr-only">All Hevy MCP questions</h2>
+		{faqs.map((faq) => (
+			<details id={faq.id}>
+				<summary>{faq.question}</summary>
+				<div class="faq-page-list__answer">
+					<p>{faq.answer}</p>
+					{faq.more && <a href={faq.more.href}>{faq.more.label} <span aria-hidden="true">→</span></a>}
+				</div>
+			</details>
+		))}
+	</section>
+</DocsLayout>

@@ -1,0 +1,33 @@
+---
+import { type ClientSetup, type TransportId } from "../data/setup";
+
+interface Props {
+	methodId: TransportId;
+	client: ClientSetup;
+}
+
+const { methodId, client } = Astro.props;
+const hasCredential = /api-key|HEVY_API_KEY|Authorization/.test(client.code);
+---
+
+<section class="setup-snippet" data-copy-root data-copy-kind="config" data-method-id={methodId} data-client-id={client.id} aria-labelledby={`setup-${methodId}-${client.id}`}>
+	<div class="setup-snippet__heading">
+		<div>
+			<p class="eyebrow">{client.label}</p>
+			<h3 id={`setup-${methodId}-${client.id}`}>{client.verificationLabel ?? "Configure"} {client.label}</h3>
+		</div>
+		<button class="copy-button" type="button" data-copy-button>
+			<span data-copy-label>Copy</span>
+		</button>
+	</div>
+	{client.configLocations && client.configLocations.length > 0 && (
+		<div class="config-locations">
+			<strong>Config location{client.configLocations.length > 1 ? "s" : ""}</strong>
+			{client.configLocations.map((location) => <code>{location}</code>)}
+		</div>
+	)}
+	<pre class:list={{ "setup-snippet__code": true, "setup-snippet__code--shell": client.format === "shell" }}><code data-copy-target tabindex="0">{client.code}</code></pre>
+	{hasCredential && <p class="credential-warning"><strong>Credential reminder:</strong> Replace the placeholder with your Hevy API key. Never paste a real key into a public issue or screenshot.</p>}
+	<p class="setup-snippet__verification">{client.verification}</p>
+	<p class="copy-status" data-copy-status role="status" aria-live="polite">Copy the configuration, then follow the client instructions above.</p>
+</section>
