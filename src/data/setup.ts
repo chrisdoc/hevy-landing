@@ -24,9 +24,9 @@ export const transportModes: readonly TransportMode[] = [
 		id: "oauth",
 		label: "Browser sign-in",
 		badge: "Recommended",
-		audience: "No install · Best for supported remote clients",
+		audience: "No install · Recommended for most people",
 		description:
-			"Add the hosted endpoint and your client opens a secure browser flow. There are no environment variables, JSON files, or local server processes to manage.",
+			"Add the hosted endpoint and your assistant opens a secure browser flow. There are no environment variables, JSON files, or local server processes to manage.",
 		keyDescription:
 			"Create a Hevy API key and keep it handy. The authorization page asks for it once, validates it with Hevy, and stores it encrypted inside your OAuth grant.",
 		clients: [
@@ -53,9 +53,9 @@ export const transportModes: readonly TransportMode[] = [
 	{
 		id: "https",
 		label: "Direct HTTPS",
-		audience: "For clients that accept a fixed bearer header",
+		audience: "For clients that accept a fixed API key",
 		description:
-			"Nothing to install or keep running. Connect your client to the hosted Streamable HTTP endpoint and provide your Hevy key as a bearer credential.",
+			"Nothing to install or keep running. Connect your client to the hosted endpoint and provide your Hevy key as a bearer credential.",
 		keyDescription:
 			"Create a Hevy API key and keep it somewhere secure. Your client sends it to the hosted server as a bearer credential on each request.",
 		clients: [
@@ -88,7 +88,7 @@ export const transportModes: readonly TransportMode[] = [
 	},
 	{
 		id: "stdio",
-		label: "Local stdio",
+		label: "Run locally",
 		audience: "For local control or clients without remote HTTP",
 		description:
 			"Run the same server locally when your client cannot send a fixed authorization header or you prefer to control the process on your machine.",

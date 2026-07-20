@@ -383,7 +383,7 @@ strong {
 }
 
 .hero h1 {
-	max-width: 10.4ch;
+	max-width: 14ch;
 	font-size: var(--text-display);
 }
 
@@ -686,6 +686,108 @@ strong {
 	color: var(--color-ink-soft);
 	font-size: var(--text-lead);
 	line-height: 1.5;
+}
+
+/* Problem */
+.problem-section {
+	background: var(--color-ink);
+	color: var(--color-white);
+	padding-block: clamp(4.5rem, 8vw, 7rem);
+}
+
+.problem-section .context-line {
+	color: var(--color-blue);
+}
+
+.problem-section .context-line::before {
+	background: var(--color-yellow);
+}
+
+.problem-section h2 {
+	max-width: 18ch;
+}
+
+.problem-section .section-heading--split > p {
+	color: oklch(0.78 0.02 220);
+}
+
+.problem-scenarios {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: var(--space-xl);
+	margin-top: clamp(3rem, 6vw, 5rem);
+}
+
+.problem-scenarios article {
+	padding-top: var(--space-lg);
+	border-top: 0.08rem solid var(--color-line-dark);
+}
+
+.problem-scenarios strong {
+	font-size: 1.2rem;
+}
+
+.problem-scenarios p {
+	margin-top: var(--space-sm);
+	color: oklch(0.78 0.02 220);
+	line-height: 1.55;
+}
+
+.problem-section__transition {
+	max-width: 42rem;
+	margin-top: clamp(3rem, 6vw, 5rem);
+	color: var(--color-blue);
+	font-size: var(--text-lead);
+	font-weight: 650;
+}
+
+/* FAQ */
+.faq-section {
+	background: var(--color-surface);
+}
+
+.faq-list {
+	max-width: 56rem;
+	margin-top: clamp(3rem, 6vw, 5rem);
+	border-top: 0.12rem solid var(--color-ink);
+}
+
+.faq-list details {
+	border-bottom: 0.08rem solid var(--color-line);
+}
+
+.faq-list summary {
+	display: flex;
+	min-height: 4.5rem;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-lg);
+	padding-block: 1rem;
+	font-size: 1.15rem;
+	font-weight: 720;
+	list-style: none;
+	cursor: pointer;
+}
+
+.faq-list summary::-webkit-details-marker {
+	display: none;
+}
+
+.faq-list summary::after {
+	flex: 0 0 auto;
+	font-family: var(--font-mono);
+	content: "+";
+}
+
+.faq-list details[open] summary::after {
+	content: "−";
+}
+
+.faq-list details p {
+	max-width: 50rem;
+	padding: 0 3rem var(--space-lg) 0;
+	color: var(--color-ink-soft);
+	line-height: 1.6;
 }
 
 /* Capabilities */
@@ -1720,6 +1822,9 @@ strong {
 	.capability,
 	.section-heading--split,
 	.final-cta__layout {
+		grid-template-columns: 1fr;
+	}
+	.problem-scenarios {
 		grid-template-columns: 1fr;
 	}
 
