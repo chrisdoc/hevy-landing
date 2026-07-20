@@ -1268,6 +1268,14 @@ strong {
 	display: none;
 }
 
+/* The panels are siblings for the no-JS fallback, but tabs only expose one
+ * panel at a time. Remove the fallback panel-to-panel gap from the active
+ * view so HTTPS and local mode do not inherit a large, empty spacer. */
+.setup[data-enhanced] > .setup-panel:not([hidden]) {
+	margin-top: 0;
+	padding-top: var(--space-2xl);
+}
+
 .setup-panel__intro,
 .setup-panel__guide,
 .setup-panel__finish {
