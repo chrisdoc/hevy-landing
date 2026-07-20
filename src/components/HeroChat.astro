@@ -3,7 +3,7 @@
 		<div class="chat-demo__signal" aria-hidden="true">
 			<span></span><span></span><span></span>
 		</div>
-		<span class="chat-demo__title">Training analysis</span>
+		<span class="chat-demo__title">6-week training analysis</span>
 		<div class="chat-demo__controls">
 			<button type="button" data-chat-pause aria-pressed="false">
 				<span data-pause-label>Pause</span>
@@ -14,12 +14,19 @@
 
 	<div class="chat-demo__viewport" aria-live="polite">
 		<div class="chat-message chat-message--user" data-chat-item="0">
-			<p>Review my last six weeks. What improved, what did I neglect, and which workouts prove it?</p>
+			<p>
+				Analyze my training during the last six weeks. Show workouts per week, my most frequently trained
+				exercises, exercises where performance improved, and any obvious gaps or inconsistencies. Use only
+				retrieved Hevy data and cite specific workout evidence.
+			</p>
 		</div>
 
 		<div class="chat-message chat-message--assistant" data-chat-item="1">
 			<span class="chat-message__speaker">Assistant</span>
-			<p>I’ll pull your Hevy history and keep the answer tied to specific sessions.</p>
+			<p>
+				I’ll pull this from Hevy directly and keep the analysis evidence-based: first the workouts from the
+				last six weeks, then exercise details as needed so I can cite concrete sessions instead of guessing.
+			</p>
 		</div>
 
 		<div class="tool-call" data-chat-item="2">
@@ -32,28 +39,28 @@
 		</div>
 
 		<div class="chat-response" data-chat-item="3">
+			<p><strong>Summary:</strong> 24 workouts, 411 logged sets, 104 exercise entries.</p>
+			<p><strong>Weekly volume:</strong> 2 · 4 · 4 · 5 · 4 · 5 workouts.</p>
+			<p><strong>Most trained:</strong> Incline bench press and lat pulldown (9 each); cable fly (8).</p>
 			<p>
-				Your <strong>pendulum squat</strong>, <strong>Romanian deadlift</strong>, and
-				<strong>chest press</strong> show clear progression.
-			</p>
-			<p>
-				Two short sessions stand out for review, so I kept them separate from the progression trend.
+				<strong>Progress:</strong> Pendulum squat: 35 kg × 7 @ RPE 10 → 47.5 kg × 7 @ RPE 8.
+				Romanian deadlift: 80 kg × 11 @ RPE 10 → 92.5 kg × 8 @ RPE 9.
 			</p>
 		</div>
 
 		<div class="evidence-list" data-chat-item="4" aria-label="Evidence used">
-			<span>Workout dates</span>
-			<span>Set loads</span>
-			<span>RPE history</span>
+			<span>24 workouts</span>
+			<span>411 logged sets</span>
+			<span>104 exercise entries</span>
 		</div>
 
 		<div class="chat-demo__complete" data-chat-item="5">
 			<span aria-hidden="true">✓</span>
-			Example answer grounded in Hevy workout evidence
+			Facts, trends, and caveats separated
 		</div>
 	</div>
 
-	<figcaption>Example response from a real Hevy MCP demo.</figcaption>
+	<figcaption>Anonymized example based on a real Hevy MCP analysis.</figcaption>
 </figure>
 
 <script>
