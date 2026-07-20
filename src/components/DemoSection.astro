@@ -3,7 +3,7 @@
 		<div class="section-heading section-heading--split section-heading--demo">
 			<div>
 				<p class="context-line">Recorded demo · 18 seconds</p>
-				<h2 id="demo-title">See a full question become an evidence-backed answer.</h2>
+				<h2 id="demo-title">Watch the evidence-gathering flow at full size.</h2>
 			</div>
 			<ul class="demo-proof">
 				<li><span aria-hidden="true">✓</span> Retrieves real Hevy workout history</li>
@@ -11,57 +11,17 @@
 			</ul>
 		</div>
 
-		<figure class="video-frame">
-			<div class="video-frame__label"><span></span> Recorded Hevy MCP session</div>
-			<video
-				data-demo-video
-				data-poster="/demo/hevy-mcp-demo-poster.jpg"
-				controls
-				preload="none"
-				width="1920"
-				height="1200"
-			>
-				<source data-src="/demo/hevy-mcp-demo.mp4" type="video/mp4" />
-				Your browser does not support the demo video.
-			</video>
-			<noscript>
-				<p><a href="/demo/hevy-mcp-demo.mp4">Open the 18-second demo video</a></p>
-			</noscript>
-			<figcaption>
-				The recorded session retrieves six weeks of training history and answers a multi-part question with concrete workout evidence.
-			</figcaption>
-		</figure>
+		<div class="demo-link-panel">
+			<div class="demo-link-panel__copy">
+				<span class="demo-link-panel__label">Full-resolution recording</span>
+				<p>
+					Open the 18-second session in your browser's video player. The page keeps the readable proof in the
+					interactive example above.
+				</p>
+			</div>
+			<a class="button button--yellow" href="/demo/hevy-mcp-demo.mp4" target="_blank" rel="noreferrer">
+				Watch the recorded session <span aria-hidden="true">↗</span>
+			</a>
+		</div>
 	</div>
 </section>
-
-<script>
-	const demoVideo = document.querySelector<HTMLVideoElement>("[data-demo-video]");
-
-	if (demoVideo) {
-		const loadVideo = () => {
-			if (demoVideo.dataset.poster) {
-				demoVideo.poster = demoVideo.dataset.poster;
-				delete demoVideo.dataset.poster;
-			}
-			const source = demoVideo.querySelector<HTMLSourceElement>("source[data-src]");
-			if (!source?.dataset.src) return;
-			source.src = source.dataset.src;
-			delete source.dataset.src;
-			demoVideo.load();
-		};
-
-		if ("IntersectionObserver" in window) {
-			const observer = new IntersectionObserver(
-				(entries) => {
-					if (!entries.some((entry) => entry.isIntersecting)) return;
-					loadVideo();
-					observer.disconnect();
-				},
-				{ rootMargin: "600px 0px" },
-			);
-			observer.observe(demoVideo);
-		} else {
-			loadVideo();
-		}
-	}
-</script>
