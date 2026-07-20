@@ -15,11 +15,15 @@ The site uses Astro with strict TypeScript and small vanilla-TypeScript interact
 
 ```sh
 npm run check
+export PUBLIC_UMAMI_SCRIPT_URL=https://analytics.example/script.js
+export PUBLIC_UMAMI_WEBSITE_ID=your-site-uuid
 npm run build
 npm run deploy:dry-run
 ```
 
 The production output is generated in `dist/`. Wrangler publishes that directory through Cloudflare Workers Static Assets. Production deployments should run from the `main` branch only.
+
+Umami is configured at build time through `PUBLIC_UMAMI_SCRIPT_URL` and `PUBLIC_UMAMI_WEBSITE_ID`. Set both as Cloudflare Workers Build variables; they are not runtime Worker bindings.
 
 ## Content maintenance
 
