@@ -29,6 +29,7 @@ const connectionPrompt = "Which Hevy account is connected?";
 					fixed API key, or local mode when you want the process on your machine.
 				</p>
 			</div>
+
 			<div class="transport-switcher" role="tablist" aria-label="Connection mode">
 				{transportModes.map((mode, index) => (
 					<button
@@ -49,7 +50,67 @@ const connectionPrompt = "Which Hevy account is connected?";
 				))}
 			</div>
 
-			{transportModes.map((mode, modeIndex) => (
+			<div class="setup-shared setup-panel__intro">
+				<div class="setup-panel__number">01</div>
+				<div>
+					<h3>Get and verify your Hevy API key</h3>
+					<p>
+						Create a Hevy API key and keep it handy. Browser sign-in asks for it once and stores it
+						encrypted in your OAuth grant; direct HTTPS sends it as a bearer credential; local mode
+						passes it through your client's environment.
+					</p>
+					<div class="key-actions">
+						<a
+							class="button button--outline button--small"
+							href={hevyApiKeyUrl}
+							target="_blank"
+							rel="noreferrer"
+						>
+							Open Hevy API settings <span aria-hidden="true">↗</span>
+						</a>
+						<span>Hevy PRO is required for API access.</span>
+					</div>
+					<div class="key-check" data-key-check>
+						<div class="key-check__heading">
+							<strong>Check the key before configuring your client</strong>
+							<span>This makes a read-only account request directly to Hevy.</span>
+						</div>
+						<form data-key-check-form>
+							<label class="sr-only" for="hevy-api-key">Hevy API key</label>
+							<input
+								id="hevy-api-key"
+								type="password"
+								name="hevy-api-key"
+								placeholder="Paste your Hevy API key"
+								autocomplete="off"
+								autocapitalize="none"
+								spellcheck="false"
+								required
+							/>
+							<button
+								class="button button--ink button--small"
+								type="submit"
+								data-key-check-button
+							>
+								Check key
+							</button>
+						</form>
+						<p class="key-check__privacy">
+							For this check only, your browser sends the key directly to Hevy. This site never
+							receives or stores it.
+						</p>
+						<p
+							class="key-check__status"
+							role="status"
+							aria-live="polite"
+							aria-atomic="true"
+							data-key-check-status
+						></p>
+					</div>
+				</div>
+			</div>
+
+			{transportModes.map((mode) => (
 				<div
 					class="setup-panel"
 					id={`setup-${mode.id}`}
@@ -57,62 +118,6 @@ const connectionPrompt = "Which Hevy account is connected?";
 					aria-labelledby={`setup-tab-${mode.id}`}
 					data-transport-panel={mode.id}
 				>
-					<div class="setup-panel__intro">
-						<div class="setup-panel__number">01</div>
-						<div>
-							<h3>Get and verify your Hevy API key</h3>
-							<p>{mode.keyDescription}</p>
-							<div class="key-actions">
-								<a
-									class="button button--outline button--small"
-									href={hevyApiKeyUrl}
-									target="_blank"
-									rel="noreferrer"
-								>
-									Open Hevy API settings <span aria-hidden="true">↗</span>
-								</a>
-								<span>Hevy PRO is required for API access.</span>
-							</div>
-							<div class="key-check" data-key-check>
-								<div class="key-check__heading">
-									<strong>Check the key before configuring your client</strong>
-									<span>This makes a read-only account request directly to Hevy.</span>
-								</div>
-								<form data-key-check-form>
-									<label class="sr-only" for={`hevy-api-key-${mode.id}`}>Hevy API key</label>
-									<input
-										id={`hevy-api-key-${mode.id}`}
-										type="password"
-										name="hevy-api-key"
-										placeholder="Paste your Hevy API key"
-										autocomplete="off"
-										autocapitalize="none"
-										spellcheck="false"
-										required
-									/>
-									<button
-										class="button button--ink button--small"
-										type="submit"
-										data-key-check-button
-									>
-										Check key
-									</button>
-								</form>
-								<p class="key-check__privacy">
-									For this check only, your browser sends the key directly to Hevy. This site never
-									receives or stores it.
-								</p>
-								<p
-									class="key-check__status"
-									role="status"
-									aria-live="polite"
-									aria-atomic="true"
-									data-key-check-status
-								></p>
-							</div>
-						</div>
-					</div>
-
 					<div class="setup-panel__workspace" data-client-tabs>
 						<div class="setup-panel__guide">
 							<div class="setup-panel__number">02</div>
@@ -179,40 +184,38 @@ const connectionPrompt = "Which Hevy account is connected?";
 							</div>
 						))}
 					</div>
-
-					<div class="setup-panel__finish">
-						<div class="setup-panel__number">03</div>
-						<div>
-							<h3>Ask your first question</h3>
-							<p>After reconnecting your client, start with this read-only question:</p>
-							<div class="connection-prompt">
-								<blockquote tabindex="0" data-copy-target>“{connectionPrompt}”</blockquote>
-								<button
-									type="button"
-									aria-describedby={`${mode.id}-prompt-copy-status`}
-									data-copy-button
-									data-copy-value={connectionPrompt}
-								>
-									<span data-copy-label>Copy question</span>
-								</button>
-							</div>
-							<p
-								class="copy-status"
-								id={`${mode.id}-prompt-copy-status`}
-								aria-live="polite"
-								aria-atomic="true"
-								data-copy-status
-							></p>
-							<p class="connection-prompt__success">
-								If your assistant returns your Hevy profile, the connection is working. Then try:
-								“Give me a training summary for the last four weeks.”
-								</p>
-						</div>
-					</div>
-
-					{modeIndex < transportModes.length - 1 && <hr />}
 				</div>
 			))}
+
+			<div class="setup-shared setup-panel__finish">
+				<div class="setup-panel__number">03</div>
+				<div>
+					<h3>Ask your first question</h3>
+					<p>After reconnecting your client, start with this read-only question:</p>
+					<div class="connection-prompt">
+						<blockquote tabindex="0" data-copy-target>“{connectionPrompt}”</blockquote>
+						<button
+							type="button"
+							aria-describedby="prompt-copy-status"
+							data-copy-button
+							data-copy-value={connectionPrompt}
+						>
+							<span data-copy-label>Copy question</span>
+						</button>
+					</div>
+					<p
+						class="copy-status"
+						id="prompt-copy-status"
+						aria-live="polite"
+						aria-atomic="true"
+						data-copy-status
+					></p>
+					<p class="connection-prompt__success">
+						If your assistant returns your Hevy profile, the connection is working. Then try:
+						“Give me a training summary for the last four weeks.”
+					</p>
+				</div>
+			</div>
 
 			<details class="more-options">
 				<summary>More setup options</summary>
