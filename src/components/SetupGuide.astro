@@ -1,5 +1,8 @@
 ---
 import { toolCount, transportModes } from "../data/setup";
+
+const hevyApiKeyUrl = "https://hevy.com/settings?developer";
+const connectionPrompt = "Which Hevy account is connected?";
 ---
 
 <section class="setup-section section" id="setup" aria-labelledby="setup-title">
@@ -10,12 +13,22 @@ import { toolCount, transportModes } from "../data/setup";
 				<h2 id="setup-title">Connect once.<br />Ask better questions.</h2>
 			</div>
 			<p>
-				New to MCP? Start with browser sign-in: add one URL, authorize once, and use all{" "}
-				{toolCount} tools without environment variables. Direct HTTPS and local stdio remain available.
+				Start with browser sign-in for the shortest path to all {toolCount} tools. Prefer a fixed
+				credential or a local process? Direct HTTPS and stdio stay close at hand.
 			</p>
 		</div>
 
 		<div class="setup" data-setup>
+			<div class="transport-intro">
+				<p>
+					<strong>Choose how your assistant connects.</strong> You can switch methods without losing
+					the instructions below.
+				</p>
+				<p>
+					Browser sign-in suits most people. The other methods are for clients with specific
+					requirements.
+				</p>
+			</div>
 			<div class="transport-switcher" role="tablist" aria-label="Connection mode">
 				{transportModes.map((mode, index) => (
 					<button
@@ -27,7 +40,10 @@ import { toolCount, transportModes } from "../data/setup";
 						tabindex={index === 0 ? 0 : -1}
 						data-transport-tab={mode.id}
 					>
-						<span>{mode.label}</span>
+						<span class="transport-switcher__label">
+							<strong>{mode.label}</strong>
+							<small>{mode.audience}</small>
+						</span>
 						{mode.badge && <span class="recommendation">{mode.badge}</span>}
 					</button>
 				))}
@@ -44,8 +60,56 @@ import { toolCount, transportModes } from "../data/setup";
 					<div class="setup-panel__intro">
 						<div class="setup-panel__number">01</div>
 						<div>
-							<h3>Bring a Hevy API key</h3>
+							<h3>Get and check your Hevy API key</h3>
 							<p>{mode.keyDescription}</p>
+							<div class="key-actions">
+								<a
+									class="button button--outline button--small"
+									href={hevyApiKeyUrl}
+									target="_blank"
+									rel="noreferrer"
+								>
+									Open Hevy API settings <span aria-hidden="true">↗</span>
+								</a>
+								<span>Hevy PRO is required for API access.</span>
+							</div>
+							<div class="key-check" data-key-check>
+								<div class="key-check__heading">
+									<strong>Check the key before configuring your client</strong>
+									<span>This makes a read-only account request directly to Hevy.</span>
+								</div>
+								<form data-key-check-form>
+									<label class="sr-only" for={`hevy-api-key-${mode.id}`}>Hevy API key</label>
+									<input
+										id={`hevy-api-key-${mode.id}`}
+										type="password"
+										name="hevy-api-key"
+										placeholder="Paste your Hevy API key"
+										autocomplete="off"
+										autocapitalize="none"
+										spellcheck="false"
+										required
+									/>
+									<button
+										class="button button--ink button--small"
+										type="submit"
+										data-key-check-button
+									>
+										Check key
+									</button>
+								</form>
+								<p class="key-check__privacy">
+									Your key is never saved or sent to this site. It goes from your browser straight to
+									Hevy for this check.
+								</p>
+								<p
+									class="key-check__status"
+									role="status"
+									aria-live="polite"
+									aria-atomic="true"
+									data-key-check-status
+								></p>
+							</div>
 						</div>
 					</div>
 
@@ -85,13 +149,33 @@ import { toolCount, transportModes } from "../data/setup";
 								<div class="code-panel">
 									<div class="code-panel__bar">
 										<span>{client.format}</span>
-										<button type="button" data-copy-button data-copy-value={client.code}>
+										<button
+											type="button"
+											aria-describedby={`${mode.id}-${client.id}-copy-status`}
+											data-copy-button
+											data-copy-value={client.code}
+										>
 											<span data-copy-label>Copy</span>
 										</button>
 									</div>
-									<pre><code>{client.code}</code></pre>
+									<pre tabindex="0" data-copy-target><code>{client.code}</code></pre>
 								</div>
-								<p class="verification"><span aria-hidden="true">✓</span>{client.verification}</p>
+								<p
+									class="copy-status"
+									id={`${mode.id}-${client.id}-copy-status`}
+									aria-live="polite"
+									aria-atomic="true"
+									data-copy-status
+								></p>
+								{client.code.includes("your-hevy-api-key") && (
+									<p class="credential-note">
+										<strong>Before you save:</strong> replace <code>your-hevy-api-key</code> and never
+										commit or screenshot the real value.
+									</p>
+								)}
+								<p class="verification">
+									<span>{client.verificationLabel ?? "After saving"}</span>{client.verification}
+								</p>
 							</div>
 						))}
 					</div>
@@ -99,8 +183,30 @@ import { toolCount, transportModes } from "../data/setup";
 					<div class="setup-panel__finish">
 						<div class="setup-panel__number">03</div>
 						<div>
-							<h3>Ask your first useful question</h3>
-							<blockquote>“Give me a training summary for the last four weeks.”</blockquote>
+							<h3>Confirm the client connection</h3>
+							<p>After restarting or reconnecting your client, ask this read-only question:</p>
+							<div class="connection-prompt">
+								<blockquote tabindex="0" data-copy-target>“{connectionPrompt}”</blockquote>
+								<button
+									type="button"
+									aria-describedby={`${mode.id}-prompt-copy-status`}
+									data-copy-button
+									data-copy-value={connectionPrompt}
+								>
+									<span data-copy-label>Copy question</span>
+								</button>
+							</div>
+							<p
+								class="copy-status"
+								id={`${mode.id}-prompt-copy-status`}
+								aria-live="polite"
+								aria-atomic="true"
+								data-copy-status
+							></p>
+							<p class="connection-prompt__success">
+								If your assistant returns your Hevy profile, the full client-to-Hevy connection is
+								working. Then try: “Give me a training summary for the last four weeks.”
+							</p>
 						</div>
 					</div>
 
@@ -117,11 +223,14 @@ import { toolCount, transportModes } from "../data/setup";
 					</div>
 					<div>
 						<h3>OAuth security</h3>
-						<p>The key is validated with Hevy and stored encrypted inside the OAuth grant.</p>
+						<p>
+							The key check goes directly from your browser to Hevy. Browser sign-in stores the
+							validated key encrypted inside the OAuth grant; rotating the key invalidates that grant.
+						</p>
 					</div>
 					<div>
 						<h3>Troubleshooting</h3>
-						<p>Find configuration locations, diagnostics, and authentication checks in the README.</p>
+						<p>Find client configuration locations, key checks, and exact recovery steps in the README.</p>
 					</div>
 					<a class="text-link" href="https://github.com/chrisdoc/hevy-mcp#quick-start">
 						Read the complete setup guide <span aria-hidden="true">↗</span>
@@ -133,52 +242,7 @@ import { toolCount, transportModes } from "../data/setup";
 </section>
 
 <script>
-	import { bindTabs } from "../scripts/tabs";
+	import { initializeSetupGuide } from "../scripts/setup-guide";
 
-	const setup = document.querySelector<HTMLElement>("[data-setup]");
-
-	if (setup) {
-		const transportController = bindTabs({
-			root: setup,
-			tabSelector: "[data-transport-tab]",
-			panelSelector: "[data-transport-panel]",
-			tabId: (tab) => tab.dataset.transportTab,
-			panelId: (panel) => panel.dataset.transportPanel,
-			initialId: "oauth",
-		});
-
-		document.querySelectorAll<HTMLAnchorElement>("[data-setup-mode]").forEach((link) => {
-			link.addEventListener("click", () => {
-				const mode = link.dataset.setupMode;
-				if (mode) transportController.activate(mode);
-			});
-		});
-
-		setup.querySelectorAll<HTMLElement>("[data-client-tabs]").forEach((group) => {
-			bindTabs({
-				root: group,
-				tabSelector: "[data-client-tab]",
-				panelSelector: "[data-client-panel]",
-				tabId: (tab) => tab.dataset.clientTab,
-				panelId: (panel) => panel.dataset.clientPanel,
-			});
-		});
-
-		setup.querySelectorAll<HTMLButtonElement>("[data-copy-button]").forEach((button) => {
-			button.addEventListener("click", async () => {
-				const label = button.querySelector<HTMLElement>("[data-copy-label]");
-				try {
-					await navigator.clipboard.writeText(button.dataset.copyValue ?? "");
-					if (label) label.textContent = "Copied";
-					window.setTimeout(() => {
-						if (label) label.textContent = "Copy";
-					}, 1600);
-				} catch {
-					if (label) label.textContent = "Select text";
-				}
-			});
-		});
-
-		setup.dataset.enhanced = "true";
-	}
+	initializeSetupGuide();
 </script>

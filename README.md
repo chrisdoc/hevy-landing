@@ -25,5 +25,5 @@ The production output is generated in `dist/`. Wrangler publishes that directory
 
 - Transport and client instructions live in `src/data/setup.ts` and feed the setup guide.
 - Setup claims and commands should remain synchronized with the upstream Hevy MCP README.
-- Public examples must use placeholders. The site never receives, proxies, stores, or records a user's Hevy API key.
+- Public examples must use placeholders. The optional key check sends the entered value directly from the browser to Hevy's official `/v1/user/info` endpoint. The landing-site Worker never receives, proxies, stores, or records the key, and the page does not persist it.
 - The demo video and poster are static assets under `public/demo/` and load only when the section approaches the viewport.

@@ -5,6 +5,7 @@ export interface ClientSetup {
 	label: string;
 	format: "url" | "shell" | "json" | "command";
 	code: string;
+	verificationLabel?: string;
 	verification: string;
 }
 
@@ -12,6 +13,7 @@ export interface TransportMode {
 	id: TransportId;
 	label: string;
 	badge?: string;
+	audience: string;
 	description: string;
 	keyDescription: string;
 	clients: readonly ClientSetup[];
@@ -21,17 +23,19 @@ export const transportModes: readonly TransportMode[] = [
 	{
 		id: "oauth",
 		label: "Browser sign-in",
-		badge: "Easiest",
+		badge: "Recommended",
+		audience: "No install · Best for supported remote clients",
 		description:
-			"Best for compatible remote MCP clients. Add the hosted endpoint and your client opens a secure browser flow—no environment variables, JSON files, or local server process.",
+			"Add the hosted endpoint and your client opens a secure browser flow. There are no environment variables, JSON files, or local server processes to manage.",
 		keyDescription:
-			"Create a Hevy API key and keep it handy. The authorization page asks for it once; you do not need to save it in an environment variable. API access requires Hevy PRO.",
+			"Create a Hevy API key and keep it handy. The authorization page asks for it once, validates it with Hevy, and stores it encrypted inside your OAuth grant.",
 		clients: [
 			{
 				id: "claude-ai",
 				label: "Claude.ai",
 				format: "url",
 				code: "https://hevy.chrisdoc.dev/mcp",
+				verificationLabel: "Next",
 				verification:
 					"Add this URL as a custom connector. Continue in the browser, paste your Hevy API key once, and approve access.",
 			},
@@ -40,6 +44,7 @@ export const transportModes: readonly TransportMode[] = [
 				label: "Other OAuth clients",
 				format: "url",
 				code: "https://hevy.chrisdoc.dev/mcp",
+				verificationLabel: "Next",
 				verification:
 					"Add this as a remote MCP server. Compatible OAuth 2.1 clients discover the authorization flow and open it in your browser.",
 			},
@@ -48,10 +53,11 @@ export const transportModes: readonly TransportMode[] = [
 	{
 		id: "https",
 		label: "Direct HTTPS",
+		audience: "For clients that accept a fixed bearer header",
 		description:
 			"Nothing to install or keep running. Connect your client to the hosted Streamable HTTP endpoint and provide your Hevy key as a bearer credential.",
 		keyDescription:
-			"Create a Hevy API key and keep it somewhere secure. Direct HTTPS clients send it as a bearer credential. API access requires Hevy PRO.",
+			"Create a Hevy API key and keep it somewhere secure. Your client sends it to the hosted server as a bearer credential on each request.",
 		clients: [
 			{
 				id: "codex",
@@ -83,10 +89,11 @@ export const transportModes: readonly TransportMode[] = [
 	{
 		id: "stdio",
 		label: "Local stdio",
+		audience: "For local control or clients without remote HTTP",
 		description:
 			"Run the same server locally when your client cannot send a fixed authorization header or you prefer to control the process on your machine.",
 		keyDescription:
-			"Create a Hevy API key and keep it somewhere secure. Your MCP client passes it to the local process through its environment. API access requires Hevy PRO.",
+			"Create a Hevy API key and keep it somewhere secure. Your MCP client passes it to the local process through its environment.",
 		clients: [
 			{
 				id: "codex",

@@ -7,6 +7,8 @@
 	--color-blue-deep: oklch(0.33 0.09 205);
 	--color-blue-light: oklch(0.91 0.045 200);
 	--color-yellow: oklch(0.88 0.17 100);
+	--color-success: oklch(0.38 0.1 155);
+	--color-error: oklch(0.42 0.15 28);
 	--color-white: oklch(1 0 0);
 	--color-line: oklch(0.88 0.018 210);
 	--color-line-dark: oklch(0.31 0.02 220);
@@ -1060,9 +1062,27 @@ strong {
 	margin-top: clamp(2.5rem, 4vw, 3.75rem);
 }
 
+.transport-intro {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: var(--space-xl);
+	margin-bottom: var(--space-md);
+}
+
+.transport-intro p {
+	max-width: 34rem;
+}
+
+.transport-intro > p:last-child {
+	max-width: 33rem;
+	color: var(--color-ink-soft);
+	font-size: var(--text-small);
+}
+
 .transport-switcher {
 	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
+	grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 0.8fr));
 	border-bottom: 0.12rem solid var(--color-ink);
 }
 
@@ -1070,7 +1090,7 @@ strong {
 	position: relative;
 	display: flex;
 	min-height: 5.25rem;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: space-between;
 	gap: 0.75rem;
 	padding: 1rem;
@@ -1079,6 +1099,28 @@ strong {
 	font-size: 1.05rem;
 	font-weight: 720;
 	cursor: pointer;
+}
+
+.transport-switcher__label {
+	display: grid;
+	gap: 0.3rem;
+	text-align: left;
+}
+
+.transport-switcher__label strong {
+	font-size: 1.05rem;
+}
+
+.transport-switcher__label small {
+	max-width: 25rem;
+	color: var(--color-ink-soft);
+	font-size: var(--text-micro);
+	font-weight: 520;
+	line-height: 1.45;
+}
+
+.transport-switcher button[aria-selected="true"] .transport-switcher__label small {
+	color: var(--color-ink);
 }
 
 .transport-switcher button + button {
@@ -1148,6 +1190,87 @@ strong {
 	max-width: 45rem;
 	margin-top: 0.6rem;
 	color: var(--color-ink-soft);
+}
+
+.key-actions {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: var(--space-md);
+	margin-top: var(--space-lg);
+}
+
+.key-actions > span {
+	color: var(--color-ink-soft);
+	font-size: var(--text-small);
+}
+
+.key-check {
+	display: grid;
+	gap: var(--space-md);
+	max-width: 52rem;
+	margin-top: var(--space-lg);
+	padding: var(--space-lg);
+	background: var(--color-surface);
+	border-radius: 0.75rem;
+}
+
+.key-check__heading {
+	display: grid;
+	gap: 0.15rem;
+}
+
+.key-check__heading span,
+.key-check__privacy {
+	color: var(--color-ink-soft);
+	font-size: var(--text-small);
+}
+
+.key-check__privacy,
+.key-check__status {
+	margin-top: 0;
+}
+
+.key-check form {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: var(--space-sm);
+}
+
+.key-check input {
+	min-width: 0;
+	min-height: 3rem;
+	padding: 0.65rem 0.8rem;
+	border: 0.12rem solid var(--color-ink);
+	border-radius: 0.5rem;
+	background: var(--color-white);
+	color: var(--color-ink);
+}
+
+.key-check input::placeholder {
+	color: var(--color-ink-soft);
+}
+
+.key-check button:disabled {
+	cursor: wait;
+	opacity: 0.72;
+}
+
+.key-check__status {
+	min-height: 1.6rem;
+	font-weight: 680;
+}
+
+.key-check[data-state="checking"] .key-check__status {
+	color: var(--color-blue-deep);
+}
+
+.key-check[data-state="success"] .key-check__status {
+	color: var(--color-success);
+}
+
+.key-check[data-state="error"] .key-check__status {
+	color: var(--color-error);
 }
 
 .setup-panel__number {
@@ -1250,6 +1373,37 @@ strong {
 	color: var(--color-blue-light);
 }
 
+.copy-status {
+	min-height: 1.5rem;
+	margin-top: 0.45rem;
+	color: var(--color-blue-deep);
+	font-size: var(--text-small);
+}
+
+.credential-note {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.65rem;
+	margin-top: var(--space-sm);
+	color: var(--color-ink-soft);
+	font-size: var(--text-small);
+}
+
+.credential-note::before {
+	width: 0.65rem;
+	height: 0.65rem;
+	flex: 0 0 auto;
+	margin-top: 0.38rem;
+	background: var(--color-yellow);
+	border-radius: 50%;
+	content: "";
+}
+
+.credential-note code {
+	color: var(--color-blue-deep);
+	font-size: 0.9em;
+}
+
 .verification {
 	display: flex;
 	align-items: flex-start;
@@ -1260,22 +1414,60 @@ strong {
 }
 
 .verification span {
-	display: inline-grid;
-	width: 1.4rem;
-	height: 1.4rem;
+	display: inline-flex;
+	min-height: 1.4rem;
 	flex: 0 0 auto;
-	place-items: center;
-	background: var(--color-yellow);
-	border-radius: 50%;
-	color: var(--color-ink);
+	align-items: center;
+	padding-inline: 0.45rem;
+	background: var(--color-blue-light);
+	border-radius: 999px;
+	color: var(--color-blue-deep);
+	font-family: var(--font-mono);
 	font-size: var(--text-micro);
+	font-weight: 650;
+}
+
+.setup-panel__finish p {
+	max-width: 48rem;
+	margin-top: 0.65rem;
+	color: var(--color-ink-soft);
 }
 
 .setup-panel__finish blockquote {
-	margin-top: 0.7rem;
 	color: var(--color-blue-deep);
 	font-size: var(--text-lead);
 	font-weight: 620;
+}
+
+.connection-prompt {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-lg);
+	max-width: 52rem;
+	margin-top: var(--space-md);
+	padding: 1rem 1.1rem;
+	background: var(--color-blue-light);
+	border-radius: 0.75rem;
+}
+
+.connection-prompt button {
+	min-height: 2.75rem;
+	flex: 0 0 auto;
+	padding: 0.55rem 0.75rem;
+	border: 0;
+	border-radius: 0.5rem;
+	background: var(--color-ink);
+	color: var(--color-white);
+	font-size: var(--text-small);
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.setup-panel__finish .connection-prompt__success {
+	max-width: 52rem;
+	color: var(--color-blue-deep);
+	font-size: var(--text-small);
 }
 
 .setup-panel hr {
@@ -1531,6 +1723,12 @@ strong {
 		grid-template-columns: 1fr;
 	}
 
+	.transport-intro {
+		align-items: flex-start;
+		flex-direction: column;
+		gap: var(--space-sm);
+	}
+
 	.hero__layout {
 		gap: var(--space-2xl);
 	}
@@ -1659,6 +1857,14 @@ strong {
 		grid-template-columns: 1fr;
 	}
 
+	.transport-switcher button {
+		min-height: 4.4rem;
+	}
+
+	.transport-switcher button:first-child {
+		min-height: 5.25rem;
+	}
+
 	.transport-switcher button + button {
 		border-top: 0.08rem solid var(--color-line);
 		border-left: 0;
@@ -1677,6 +1883,26 @@ strong {
 	.setup-panel__finish {
 		grid-template-columns: 1fr;
 		gap: 0.5rem;
+	}
+
+	.key-actions {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.key-actions .button,
+	.key-check form,
+	.key-check form .button {
+		width: 100%;
+	}
+
+	.key-check form {
+		grid-template-columns: 1fr;
+	}
+
+	.connection-prompt {
+		align-items: flex-start;
+		flex-direction: column;
 	}
 
 	.client-tabs {
