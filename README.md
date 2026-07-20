@@ -1,6 +1,6 @@
 # Hevy MCP landing page
 
-The static marketing and setup site for [Hevy MCP](https://github.com/chrisdoc/hevy-mcp). It presents the hosted HTTPS transport as the recommended path, documents local stdio setup, and keeps all configuration examples in typed shared data.
+The static marketing and setup site for [Hevy MCP](https://github.com/chrisdoc/hevy-mcp). It presents browser-based OAuth as the easiest path, documents direct HTTPS and local stdio setup, and keeps all configuration examples in typed shared data.
 
 ## Local development
 
@@ -23,7 +23,7 @@ The production output is generated in `dist/`. Wrangler publishes that directory
 
 ## Content maintenance
 
-- Transport and client instructions live in `src/data/setup.ts` and feed both the setup guide and architecture diagram.
+- Transport and client instructions live in `src/data/setup.ts` and feed the setup guide.
 - Setup claims and commands should remain synchronized with the upstream Hevy MCP README.
 - Public examples must use placeholders. The site never receives, proxies, stores, or records a user's Hevy API key.
 - The demo video and poster are static assets under `public/demo/` and load only when the section approaches the viewport.

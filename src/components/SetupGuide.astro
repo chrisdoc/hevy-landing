@@ -10,8 +10,8 @@ import { toolCount, transportModes } from "../data/setup";
 				<h2 id="setup-title">Connect once.<br />Ask better questions.</h2>
 			</div>
 			<p>
-				Start with hosted HTTPS for the shortest path. The same {toolCount} tools are available locally
-				over stdio when you need them.
+				New to MCP? Start with browser sign-in: add one URL, authorize once, and use all{" "}
+				{toolCount} tools without environment variables. Direct HTTPS and local stdio remain available.
 			</p>
 		</div>
 
@@ -28,7 +28,7 @@ import { toolCount, transportModes } from "../data/setup";
 						data-transport-tab={mode.id}
 					>
 						<span>{mode.label}</span>
-						{mode.recommended && <span class="recommendation">Recommended</span>}
+						{mode.badge && <span class="recommendation">{mode.badge}</span>}
 					</button>
 				))}
 			</div>
@@ -45,10 +45,7 @@ import { toolCount, transportModes } from "../data/setup";
 						<div class="setup-panel__number">01</div>
 						<div>
 							<h3>Bring a Hevy API key</h3>
-							<p>
-								Create an API key in Hevy and keep it somewhere secure. API access currently
-								requires <strong>Hevy PRO</strong>.
-							</p>
+							<p>{mode.keyDescription}</p>
 						</div>
 					</div>
 
@@ -119,8 +116,8 @@ import { toolCount, transportModes } from "../data/setup";
 						<p>Run the stdio server with bunx or the official multi-architecture Docker image.</p>
 					</div>
 					<div>
-						<h3>OAuth clients</h3>
-						<p>Claude.ai and compatible remote clients can use the optional OAuth 2.1 flow.</p>
+						<h3>OAuth security</h3>
+						<p>The key is validated with Hevy and stored encrypted inside the OAuth grant.</p>
 					</div>
 					<div>
 						<h3>Troubleshooting</h3>
@@ -141,13 +138,20 @@ import { toolCount, transportModes } from "../data/setup";
 	const setup = document.querySelector<HTMLElement>("[data-setup]");
 
 	if (setup) {
-		bindTabs({
+		const transportController = bindTabs({
 			root: setup,
 			tabSelector: "[data-transport-tab]",
 			panelSelector: "[data-transport-panel]",
 			tabId: (tab) => tab.dataset.transportTab,
 			panelId: (panel) => panel.dataset.transportPanel,
-			initialId: "https",
+			initialId: "oauth",
+		});
+
+		document.querySelectorAll<HTMLAnchorElement>("[data-setup-mode]").forEach((link) => {
+			link.addEventListener("click", () => {
+				const mode = link.dataset.setupMode;
+				if (mode) transportController.activate(mode);
+			});
 		});
 
 		setup.querySelectorAll<HTMLElement>("[data-client-tabs]").forEach((group) => {
