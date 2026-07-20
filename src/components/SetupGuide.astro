@@ -1,0 +1,180 @@
+---
+import { toolCount, transportModes } from "../data/setup";
+---
+
+<section class="setup-section section" id="setup" aria-labelledby="setup-title">
+	<div class="container">
+		<div class="section-heading section-heading--split">
+			<div>
+				<p class="context-line">Setup</p>
+				<h2 id="setup-title">Connect once.<br />Ask better questions.</h2>
+			</div>
+			<p>
+				Start with hosted HTTPS for the shortest path. The same {toolCount} tools are available locally
+				over stdio when you need them.
+			</p>
+		</div>
+
+		<div class="setup" data-setup>
+			<div class="transport-switcher" role="tablist" aria-label="Connection mode">
+				{transportModes.map((mode, index) => (
+					<button
+						type="button"
+						role="tab"
+						aria-selected={index === 0 ? "true" : "false"}
+						aria-controls={`setup-${mode.id}`}
+						id={`setup-tab-${mode.id}`}
+						tabindex={index === 0 ? 0 : -1}
+						data-transport-tab={mode.id}
+					>
+						<span>{mode.label}</span>
+						{mode.recommended && <span class="recommendation">Recommended</span>}
+					</button>
+				))}
+			</div>
+
+			{transportModes.map((mode, modeIndex) => (
+				<div
+					class="setup-panel"
+					id={`setup-${mode.id}`}
+					role="tabpanel"
+					aria-labelledby={`setup-tab-${mode.id}`}
+					data-transport-panel={mode.id}
+				>
+					<div class="setup-panel__intro">
+						<div class="setup-panel__number">01</div>
+						<div>
+							<h3>Bring a Hevy API key</h3>
+							<p>
+								Create an API key in Hevy and keep it somewhere secure. API access currently
+								requires <strong>Hevy PRO</strong>.
+							</p>
+						</div>
+					</div>
+
+					<div class="setup-panel__workspace" data-client-tabs>
+						<div class="setup-panel__guide">
+							<div class="setup-panel__number">02</div>
+							<div>
+								<h3>Choose your client</h3>
+								<p>{mode.description}</p>
+							</div>
+						</div>
+
+						<div class="client-tabs" role="tablist" aria-label={`${mode.label} clients`}>
+							{mode.clients.map((client, clientIndex) => (
+								<button
+									type="button"
+									role="tab"
+									aria-selected={clientIndex === 0 ? "true" : "false"}
+									aria-controls={`${mode.id}-${client.id}-panel`}
+									id={`${mode.id}-${client.id}-tab`}
+									tabindex={clientIndex === 0 ? 0 : -1}
+									data-client-tab={client.id}
+								>
+									{client.label}
+								</button>
+							))}
+						</div>
+
+						{mode.clients.map((client) => (
+							<div
+								class="client-panel"
+								id={`${mode.id}-${client.id}-panel`}
+								role="tabpanel"
+								aria-labelledby={`${mode.id}-${client.id}-tab`}
+								data-client-panel={client.id}
+							>
+								<div class="code-panel">
+									<div class="code-panel__bar">
+										<span>{client.format}</span>
+										<button type="button" data-copy-button data-copy-value={client.code}>
+											<span data-copy-label>Copy</span>
+										</button>
+									</div>
+									<pre><code>{client.code}</code></pre>
+								</div>
+								<p class="verification"><span aria-hidden="true">✓</span>{client.verification}</p>
+							</div>
+						))}
+					</div>
+
+					<div class="setup-panel__finish">
+						<div class="setup-panel__number">03</div>
+						<div>
+							<h3>Ask your first useful question</h3>
+							<blockquote>“Give me a training summary for the last four weeks.”</blockquote>
+						</div>
+					</div>
+
+					{modeIndex < transportModes.length - 1 && <hr />}
+				</div>
+			))}
+
+			<details class="more-options">
+				<summary>More setup options</summary>
+				<div class="more-options__content">
+					<div>
+						<h3>Bun and Docker</h3>
+						<p>Run the stdio server with bunx or the official multi-architecture Docker image.</p>
+					</div>
+					<div>
+						<h3>OAuth clients</h3>
+						<p>Claude.ai and compatible remote clients can use the optional OAuth 2.1 flow.</p>
+					</div>
+					<div>
+						<h3>Troubleshooting</h3>
+						<p>Find configuration locations, diagnostics, and authentication checks in the README.</p>
+					</div>
+					<a class="text-link" href="https://github.com/chrisdoc/hevy-mcp#quick-start">
+						Read the complete setup guide <span aria-hidden="true">↗</span>
+					</a>
+				</div>
+			</details>
+		</div>
+	</div>
+</section>
+
+<script>
+	import { bindTabs } from "../scripts/tabs";
+
+	const setup = document.querySelector<HTMLElement>("[data-setup]");
+
+	if (setup) {
+		bindTabs({
+			root: setup,
+			tabSelector: "[data-transport-tab]",
+			panelSelector: "[data-transport-panel]",
+			tabId: (tab) => tab.dataset.transportTab,
+			panelId: (panel) => panel.dataset.transportPanel,
+			initialId: "https",
+		});
+
+		setup.querySelectorAll<HTMLElement>("[data-client-tabs]").forEach((group) => {
+			bindTabs({
+				root: group,
+				tabSelector: "[data-client-tab]",
+				panelSelector: "[data-client-panel]",
+				tabId: (tab) => tab.dataset.clientTab,
+				panelId: (panel) => panel.dataset.clientPanel,
+			});
+		});
+
+		setup.querySelectorAll<HTMLButtonElement>("[data-copy-button]").forEach((button) => {
+			button.addEventListener("click", async () => {
+				const label = button.querySelector<HTMLElement>("[data-copy-label]");
+				try {
+					await navigator.clipboard.writeText(button.dataset.copyValue ?? "");
+					if (label) label.textContent = "Copied";
+					window.setTimeout(() => {
+						if (label) label.textContent = "Copy";
+					}, 1600);
+				} catch {
+					if (label) label.textContent = "Select text";
+				}
+			});
+		});
+
+		setup.dataset.enhanced = "true";
+	}
+</script>

@@ -1,0 +1,25 @@
+---
+import BrandMark from "./BrandMark.astro";
+---
+
+<footer class="site-footer">
+	<div class="container site-footer__inner">
+		<div>
+			<a class="wordmark" href="#top" aria-label="Hevy MCP home">
+				<BrandMark />
+				<span>hevy <span class="wordmark__mcp">mcp</span></span>
+			</a>
+			<p>Independent, open source, and built for better training questions.</p>
+		</div>
+		<nav aria-label="Footer navigation">
+			<a href="https://github.com/chrisdoc/hevy-mcp">GitHub</a>
+			<a href="https://www.npmjs.com/package/hevy-mcp">npm</a>
+			<a href="https://github.com/chrisdoc/hevy-mcp/issues">Issues</a>
+			<a href="https://github.com/chrisdoc/hevy-mcp/blob/main/LICENSE">MIT license</a>
+		</nav>
+	</div>
+	<div class="container site-footer__legal">
+		<p>Hevy MCP is an independent open-source project and is not affiliated with or endorsed by Hevy.</p>
+		<p>© {new Date().getFullYear()} Hevy MCP contributors.</p>
+	</div>
+</footer>

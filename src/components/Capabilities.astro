@@ -1,0 +1,106 @@
+---
+import { toolCount, toolGroups } from "../data/setup";
+
+const capabilities = [
+	{
+		index: "01",
+		title: "See the training block",
+		copy: "Summarize up to twelve weeks of workouts and measurements, spot progression, and identify consistency gaps.",
+		visual: "progress",
+	},
+	{
+		index: "02",
+		title: "Find the thing you forgot",
+		copy: "Search routines, exercises, workout history, folders, and recent sessions without scrolling through oversized responses.",
+		visual: "search",
+	},
+	{
+		index: "03",
+		title: "Change the plan deliberately",
+		copy: "Create and update workouts, routines, custom exercises, and measurements—with client confirmation where supported.",
+		visual: "workout",
+	},
+] as const;
+---
+
+<section class="capabilities section" id="features" aria-labelledby="features-title">
+	<div class="container">
+		<div class="section-heading section-heading--wide">
+			<p class="context-line">What you can do</p>
+			<h2 id="features-title">Your log is more useful<br />when you can talk to it.</h2>
+		</div>
+
+		<div class="capability-list">
+			{capabilities.map((capability, index) => (
+				<article class:list={["capability", index % 2 === 1 && "capability--reverse"]}>
+					<div class="capability__copy">
+						<span class="capability__index">{capability.index}</span>
+						<h3>{capability.title}</h3>
+						<p>{capability.copy}</p>
+					</div>
+
+					{capability.visual === "progress" && (
+						<div class="training-visual training-visual--progress" aria-label="Sample exercise progression">
+							<div class="training-visual__bar">
+								<span>Pendulum squat</span><strong>6 weeks</strong>
+							</div>
+							<div class="progress-chart" aria-hidden="true">
+								<svg viewBox="0 0 560 220" role="img">
+									<title>Upward training progression over six weeks</title>
+									<path class="progress-chart__axis" d="M18 186H542 M18 132H542 M18 78H542 M18 24H542" />
+									<path class="progress-chart__line" d="M30 164 C98 154 126 145 180 146 S258 124 306 111 S386 93 430 74 S492 46 530 36" />
+									<circle cx="30" cy="164" r="7" /><circle cx="180" cy="146" r="7" /><circle cx="306" cy="111" r="7" /><circle cx="430" cy="74" r="7" /><circle cx="530" cy="36" r="7" />
+								</svg>
+							</div>
+							<div class="training-visual__stats"><span>Load ↑</span><span>Effort ↓</span><span>Evidence: 5 sessions</span></div>
+						</div>
+					)}
+
+					{capability.visual === "search" && (
+						<div class="training-visual training-visual--search" aria-label="Sample routine search result">
+							<div class="search-field"><span aria-hidden="true">⌕</span><span>push day</span><kbd>3 results</kbd></div>
+							<div class="routine-result routine-result--active">
+								<div><strong>Push Day A</strong><span>6 exercises · Chest, shoulders, triceps</span></div>
+								<span aria-hidden="true">→</span>
+							</div>
+							<div class="routine-result">
+								<div><strong>Push / Pull</strong><span>8 exercises · Upper body</span></div>
+								<span aria-hidden="true">→</span>
+							</div>
+							<div class="routine-result">
+								<div><strong>Travel Push</strong><span>4 exercises · Dumbbells</span></div>
+								<span aria-hidden="true">→</span>
+							</div>
+						</div>
+					)}
+
+					{capability.visual === "workout" && (
+						<div class="training-visual training-visual--workout" aria-label="Sample workout creation confirmation">
+							<div class="training-visual__bar"><span>Completed workout</span><strong>Review before creating</strong></div>
+							<div class="set-row set-row--heading"><span>Exercise</span><span>Sets</span><span>Top set</span></div>
+							<div class="set-row"><strong>Incline bench press</strong><span>3</span><span>55 kg × 10</span></div>
+							<div class="set-row"><strong>Chest press machine</strong><span>3</span><span>65 kg × 9</span></div>
+							<div class="set-row"><strong>Cable lateral raise</strong><span>4</span><span>12.5 kg × 14</span></div>
+							<div class="approval-row"><span>Mutation requires confirmation</span><strong>Ready</strong></div>
+						</div>
+					)}
+				</article>
+			))}
+		</div>
+
+		<details class="tool-manifest">
+			<summary>
+				<span><strong>{toolCount} focused tools</strong><small>Explore the complete MCP tool manifest</small></span>
+				<span class="tool-manifest__action">View tools</span>
+			</summary>
+			<div class="tool-groups">
+				{toolGroups.map((group) => (
+					<div class="tool-group">
+						<h3>{group.label}</h3>
+						<ul>{group.tools.map((tool) => <li><code>{tool}</code></li>)}</ul>
+					</div>
+				))}
+			</div>
+		</details>
+	</div>
+</section>

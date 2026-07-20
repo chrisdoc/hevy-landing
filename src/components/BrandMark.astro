@@ -1,0 +1,39 @@
+<span class="brand-mark" aria-hidden="true">
+	<span class="brand-mark__plate brand-mark__plate--left"></span>
+	<span class="brand-mark__bar"></span>
+	<span class="brand-mark__node"></span>
+	<span class="brand-mark__bar"></span>
+	<span class="brand-mark__plate brand-mark__plate--right"></span>
+</span>
+
+<style>
+	.brand-mark {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		color: var(--color-ink);
+	}
+
+	.brand-mark__bar {
+		width: 0.4rem;
+		height: 0.16rem;
+		background: currentColor;
+	}
+
+	.brand-mark__plate {
+		width: 0.32rem;
+		height: 1rem;
+		border: 0.15rem solid currentColor;
+		border-radius: 0.15rem;
+	}
+
+	.brand-mark__node {
+		width: 0.52rem;
+		height: 0.52rem;
+		background: var(--color-yellow);
+		border: 0.12rem solid currentColor;
+		border-radius: 50%;
+	}
+</style>

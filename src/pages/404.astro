@@ -1,0 +1,19 @@
+---
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Page not found — Hevy MCP" description="The requested Hevy MCP page could not be found." canonicalPath="/404/">
+	<div id="top"></div>
+	<SiteHeader />
+	<main id="main-content" class="not-found">
+		<div class="container not-found__inner">
+			<p class="context-line">404 · Set not found</p>
+			<h1>This route missed the rack.</h1>
+			<p>The page you requested does not exist. The server and setup guide are still ready.</p>
+			<a class="button button--ink" href="/">Return to Hevy MCP</a>
+		</div>
+	</main>
+	<SiteFooter />
+</BaseLayout>

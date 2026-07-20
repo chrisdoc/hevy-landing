@@ -1,0 +1,67 @@
+<section class="demo-section section" id="demo" aria-labelledby="demo-title">
+	<div class="container">
+		<div class="section-heading section-heading--split section-heading--demo">
+			<div>
+				<p class="context-line">Real demo · 18 seconds</p>
+				<h2 id="demo-title">See the full question become an evidence-backed answer.</h2>
+			</div>
+			<ul class="demo-proof">
+				<li><span aria-hidden="true">✓</span> Retrieves real Hevy workout history</li>
+				<li><span aria-hidden="true">✓</span> Cites specific sessions instead of guessing</li>
+			</ul>
+		</div>
+
+		<figure class="video-frame">
+			<div class="video-frame__label"><span></span> Live Hevy MCP session</div>
+			<video
+				data-demo-video
+				data-poster="/demo/hevy-mcp-demo-poster.jpg"
+				controls
+				preload="none"
+				width="1920"
+				height="1200"
+			>
+				<source data-src="/demo/hevy-mcp-demo.mp4" type="video/mp4" />
+				Your browser does not support the demo video.
+			</video>
+			<noscript>
+				<p><a href="/demo/hevy-mcp-demo.mp4">Open the 18-second demo video</a></p>
+			</noscript>
+			<figcaption>
+				The assistant retrieves six weeks of training history and answers with concrete workout evidence.
+			</figcaption>
+		</figure>
+	</div>
+</section>
+
+<script>
+	const demoVideo = document.querySelector<HTMLVideoElement>("[data-demo-video]");
+
+	if (demoVideo) {
+		const loadVideo = () => {
+			if (demoVideo.dataset.poster) {
+				demoVideo.poster = demoVideo.dataset.poster;
+				delete demoVideo.dataset.poster;
+			}
+			const source = demoVideo.querySelector<HTMLSourceElement>("source[data-src]");
+			if (!source?.dataset.src) return;
+			source.src = source.dataset.src;
+			delete source.dataset.src;
+			demoVideo.load();
+		};
+
+		if ("IntersectionObserver" in window) {
+			const observer = new IntersectionObserver(
+				(entries) => {
+					if (!entries.some((entry) => entry.isIntersecting)) return;
+					loadVideo();
+					observer.disconnect();
+				},
+				{ rootMargin: "600px 0px" },
+			);
+			observer.observe(demoVideo);
+		} else {
+			loadVideo();
+		}
+	}
+</script>

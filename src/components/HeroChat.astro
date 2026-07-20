@@ -1,0 +1,137 @@
+<figure class="chat-demo" data-chat-demo data-stage="5">
+	<div class="chat-demo__topbar">
+		<div class="chat-demo__signal" aria-hidden="true">
+			<span></span><span></span><span></span>
+		</div>
+		<span class="chat-demo__title">Training analysis</span>
+		<div class="chat-demo__controls">
+			<button type="button" data-chat-pause aria-pressed="false">
+				<span data-pause-label>Pause</span>
+			</button>
+			<button type="button" data-chat-replay>Replay</button>
+		</div>
+	</div>
+
+	<div class="chat-demo__viewport" aria-live="polite">
+		<div class="chat-message chat-message--user" data-chat-item="0">
+			<p>Review my last six weeks. What improved, what did I neglect, and which workouts prove it?</p>
+		</div>
+
+		<div class="chat-message chat-message--assistant" data-chat-item="1">
+			<span class="chat-message__speaker">Assistant</span>
+			<p>I’ll pull your Hevy history and keep the answer tied to specific sessions.</p>
+		</div>
+
+		<div class="tool-call" data-chat-item="2">
+			<span class="tool-call__pulse" aria-hidden="true"></span>
+			<span>Hevy MCP</span>
+			<span class="tool-call__divider">·</span>
+			<code>get-training-summary</code>
+			<span class="tool-call__divider">·</span>
+			<span>6 weeks</span>
+		</div>
+
+		<div class="chat-response" data-chat-item="3">
+			<p>
+				Your <strong>pendulum squat</strong>, <strong>Romanian deadlift</strong>, and
+				<strong>chest press</strong> show clear progression.
+			</p>
+			<p>
+				Two unusually short sessions look like import artifacts, so I’d flag them instead of
+				treating them as normal workouts.
+			</p>
+		</div>
+
+		<div class="evidence-list" data-chat-item="4" aria-label="Evidence used">
+			<span>Workout dates</span>
+			<span>Set loads</span>
+			<span>RPE history</span>
+		</div>
+
+		<div class="chat-demo__complete" data-chat-item="5">
+			<span aria-hidden="true">✓</span>
+			Evidence checked against your Hevy log
+		</div>
+	</div>
+
+	<figcaption>Illustrative summary based on the real Hevy MCP demo.</figcaption>
+</figure>
+
+<script>
+	const root = document.querySelector<HTMLElement>("[data-chat-demo]");
+
+	if (root) {
+		const pauseButton = root.querySelector<HTMLButtonElement>("[data-chat-pause]");
+		const replayButton = root.querySelector<HTMLButtonElement>("[data-chat-replay]");
+		const pauseLabel = root.querySelector<HTMLElement>("[data-pause-label]");
+		const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+		const stageTimes = [700, 2600, 4700, 6900, 9700, 11300];
+		const loopDuration = 15000;
+		let timers: number[] = [];
+		let loopTimer = 0;
+		let paused = false;
+		let elapsed = 0;
+		let startedAt = 0;
+
+		const clearTimers = () => {
+			timers.forEach(window.clearTimeout);
+			timers = [];
+			window.clearTimeout(loopTimer);
+		};
+
+		const setStage = (stage: number) => {
+			root.dataset.stage = String(stage);
+			root.querySelectorAll<HTMLElement>("[data-chat-item]").forEach((item) => {
+				const itemStage = Number(item.dataset.chatItem ?? 0);
+				item.toggleAttribute("data-visible", itemStage <= stage);
+			});
+		};
+
+		const schedule = () => {
+			clearTimers();
+			if (reducedMotion.matches) {
+				setStage(5);
+				return;
+			}
+			startedAt = performance.now();
+			stageTimes.forEach((time, stage) => {
+				if (time <= elapsed) return;
+				timers.push(window.setTimeout(() => setStage(stage), time - elapsed));
+			});
+			loopTimer = window.setTimeout(() => {
+				elapsed = 0;
+				setStage(-1);
+				schedule();
+			}, loopDuration - elapsed);
+		};
+
+		const restart = () => {
+			elapsed = 0;
+			setStage(reducedMotion.matches ? 5 : -1);
+			schedule();
+		};
+
+		pauseButton?.addEventListener("click", () => {
+			paused = !paused;
+			pauseButton.setAttribute("aria-pressed", String(paused));
+			if (pauseLabel) pauseLabel.textContent = paused ? "Play" : "Pause";
+			if (paused) {
+				elapsed = Math.min(loopDuration, elapsed + performance.now() - startedAt);
+				clearTimers();
+			} else {
+				schedule();
+			}
+		});
+
+		replayButton?.addEventListener("click", () => {
+			paused = false;
+			pauseButton?.setAttribute("aria-pressed", "false");
+			if (pauseLabel) pauseLabel.textContent = "Pause";
+			restart();
+		});
+
+		reducedMotion.addEventListener("change", restart);
+		root.dataset.enhanced = "true";
+		restart();
+	}
+</script>

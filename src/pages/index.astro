@@ -1,0 +1,70 @@
+---
+import ArchitectureFlow from "../components/ArchitectureFlow.astro";
+import Capabilities from "../components/Capabilities.astro";
+import DemoSection from "../components/DemoSection.astro";
+import HeroChat from "../components/HeroChat.astro";
+import SetupGuide from "../components/SetupGuide.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import { toolCount } from "../data/setup";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const title = "Hevy MCP — Ask your training log better questions";
+const description =
+	"Connect Hevy workouts, routines, exercises, and measurements to your AI assistant over hosted HTTPS or local stdio.";
+---
+
+<BaseLayout {title} {description}>
+	<div id="top"></div>
+	<SiteHeader />
+	<main id="main-content">
+		<section class="hero section" aria-labelledby="hero-title">
+			<div class="container hero__layout">
+				<div class="hero__copy">
+					<p class="context-line">Community-built MCP server for Hevy</p>
+					<h1 id="hero-title">Ask your training log <span>better questions.</span></h1>
+					<p class="hero__lead">
+						Connect your Hevy workouts, routines, exercises, and measurements to the AI assistant you
+						already use. Analyze progress, find what you need, and log training in plain language.
+					</p>
+					<div class="hero__actions">
+						<a class="button button--ink" href="#setup">Connect over HTTPS <span aria-hidden="true">→</span></a>
+						<a class="button button--outline" href="#setup">Run locally with stdio</a>
+					</div>
+					<div class="hero__meta">
+						<a class="text-link" href="https://github.com/chrisdoc/hevy-mcp">View source on GitHub <span aria-hidden="true">↗</span></a>
+						<span>Requires a Hevy PRO API key.</span>
+					</div>
+					<div class="hero__proof" aria-label="Project highlights">
+						<span>{toolCount} tools</span><span>Hosted or local</span><span>MIT licensed</span>
+					</div>
+				</div>
+
+				<div class="hero__visual">
+					<HeroChat />
+				</div>
+			</div>
+		</section>
+
+		<Capabilities />
+		<DemoSection />
+		<SetupGuide />
+		<ArchitectureFlow />
+
+		<section class="final-cta section" aria-labelledby="final-cta-title">
+			<div class="container final-cta__layout">
+				<div>
+					<p class="context-line">Ready when your assistant is</p>
+					<h2 id="final-cta-title">Your training log already has the answers.</h2>
+					<p>Connect Hevy MCP and ask the question your dashboard cannot.</p>
+				</div>
+				<div class="final-cta__actions">
+					<a class="button button--yellow" href="#setup">Connect over HTTPS <span aria-hidden="true">→</span></a>
+					<a class="button button--light-outline" href="#setup">Run locally</a>
+					<a class="text-link text-link--light" href="https://github.com/chrisdoc/hevy-mcp">Explore the project on GitHub <span aria-hidden="true">↗</span></a>
+				</div>
+			</div>
+		</section>
+	</main>
+	<SiteFooter />
+</BaseLayout>

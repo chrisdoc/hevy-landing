@@ -1,0 +1,52 @@
+---
+import "@fontsource-variable/archivo";
+import "@fontsource-variable/martian-mono";
+import "../styles/global.css";
+
+interface Props {
+	title: string;
+	description: string;
+	canonicalPath?: string;
+}
+
+const { title, description, canonicalPath = "/" } = Astro.props;
+const canonical = new URL(canonicalPath, Astro.site ?? Astro.url);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="description" content={description} />
+		<meta name="theme-color" content="#ffffff" />
+		<meta name="color-scheme" content="light" />
+		<link rel="canonical" href={canonical} />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:image" content={new URL("/og-card.png", canonical)} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={new URL("/og-card.png", canonical)} />
+		<title>{title}</title>
+		<script is:inline type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "SoftwareApplication",
+			name: "Hevy MCP",
+			applicationCategory: "DeveloperApplication",
+			operatingSystem: "Cross-platform",
+			description,
+			url: canonical.toString(),
+			license: "https://opensource.org/licenses/MIT",
+			codeRepository: "https://github.com/chrisdoc/hevy-mcp",
+		})} />
+	</head>
+	<body>
+		<a class="skip-link" href="#main-content">Skip to content</a>
+		<slot />
+	</body>
+</html>

@@ -1,0 +1,54 @@
+---
+import BrandMark from "./BrandMark.astro";
+---
+
+<header class="site-header" data-site-header>
+	<div class="container site-header__inner">
+		<a class="wordmark" href="#top" aria-label="Hevy MCP home">
+			<BrandMark />
+			<span>hevy <span class="wordmark__mcp">mcp</span></span>
+		</a>
+
+		<button
+			class="mobile-menu-button"
+			type="button"
+			aria-expanded="false"
+			aria-controls="site-navigation"
+			data-menu-toggle
+		>
+			<span class="sr-only">Toggle navigation</span>
+			<span></span><span></span>
+		</button>
+
+		<nav class="site-nav" id="site-navigation" aria-label="Main navigation" data-site-nav>
+			<a href="#features">Features</a>
+			<a href="#demo">Demo</a>
+			<a href="#setup">Setup</a>
+			<a href="#how-it-works">How it works</a>
+			<a class="site-nav__github" href="https://github.com/chrisdoc/hevy-mcp">GitHub</a>
+			<a class="button button--small button--ink" href="#setup">Connect over HTTPS</a>
+		</nav>
+	</div>
+</header>
+
+<script>
+	const header = document.querySelector<HTMLElement>("[data-site-header]");
+	const toggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+	const nav = document.querySelector<HTMLElement>("[data-site-nav]");
+
+	if (header && toggle && nav) {
+		header.dataset.enhanced = "true";
+		toggle.addEventListener("click", () => {
+			const open = toggle.getAttribute("aria-expanded") === "true";
+			toggle.setAttribute("aria-expanded", String(!open));
+			nav.toggleAttribute("data-open", !open);
+		});
+
+		nav.querySelectorAll("a").forEach((link) => {
+			link.addEventListener("click", () => {
+				toggle.setAttribute("aria-expanded", "false");
+				nav.removeAttribute("data-open");
+			});
+		});
+	}
+</script>
