@@ -1,6 +1,7 @@
 ---
 import "@fontsource-variable/archivo";
 import "@fontsource-variable/martian-mono";
+import archivoLatin from "@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2";
 import "../styles/global.css";
 
 interface Props {
@@ -19,7 +20,8 @@ const canonical = new URL(canonicalPath, Astro.site ?? Astro.url);
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="description" content={description} />
-		<meta name="theme-color" content="#ffffff" />
+		<meta name="theme-color" content="#007A82" />
+		<link rel="preload" href={archivoLatin} as="font" type="font/woff2" crossorigin />
 		<meta name="color-scheme" content="light" />
 		<link rel="canonical" href={canonical} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
