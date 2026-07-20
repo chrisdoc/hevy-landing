@@ -4,7 +4,7 @@
 	--color-ink: #13191A;
 	--color-ink-soft: #526164;
 	--color-blue: #009EA8;
-	--color-blue-deep: #007A82;
+	--color-blue-deep: #00777F;
 	--color-blue-light: #E7F2F3;
 	--color-dark-surface: #0B2023;
 	--color-dark-panel: #122A2D;
@@ -13,8 +13,8 @@
 	--color-success: #247A56;
 	--color-error: #A33D2F;
 	--color-white: #FFFFFF;
-	--color-line: #C9D9DB;
-	--color-line-dark: #294246;
+	--color-line: #70878A;
+	--color-line-dark: #607A7D;
 	--font-sans: "Archivo Variable", Arial, sans-serif;
 	--font-mono: "Martian Mono Variable", "SFMono-Regular", Consolas, monospace;
 	--text-display: clamp(3.25rem, 6.1vw, 5.9rem);
@@ -335,8 +335,24 @@ strong {
 }
 
 .site-nav__github {
-	padding-left: clamp(0.75rem, 1.5vw, 1.5rem);
+	display: inline-flex;
+	width: 2.75rem;
+	min-height: 2.75rem;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
 	border-left: 0.08rem solid var(--color-line);
+}
+
+.site-nav__github svg {
+	width: 1.35rem;
+	height: 1.35rem;
+	fill: currentColor;
+	transition: transform 180ms var(--ease-out);
+}
+
+.site-nav__github:hover svg {
+	transform: translateY(-0.1rem);
 }
 
 .mobile-menu-button {
@@ -364,6 +380,7 @@ strong {
 	display: flex;
 	align-items: center;
 	overflow: clip;
+	padding-block: clamp(3rem, 5vw, 5rem);
 }
 
 .hero::before {
@@ -970,7 +987,7 @@ strong {
 }
 
 .routine-result--active {
-	color: var(--color-yellow);
+	color: var(--color-white);
 }
 
 .set-row {
@@ -1255,6 +1272,7 @@ strong {
 	padding: 0.35rem 0.55rem;
 	background: var(--color-yellow);
 	border-radius: 999px;
+	color: var(--color-ink);
 	font-family: var(--font-mono);
 	font-size: var(--text-micro);
 	font-weight: 600;
@@ -1793,6 +1811,7 @@ strong {
 
 	.hero__layout {
 		grid-template-columns: minmax(0, 1fr) minmax(24rem, 1fr);
+		align-items: start;
 		gap: 2rem;
 	}
 
@@ -1847,7 +1866,7 @@ strong {
 	.hero {
 		min-height: auto;
 		align-items: initial;
-		padding-top: 3.25rem;
+		padding-top: 0;
 		padding-bottom: 0;
 	}
 
@@ -1913,6 +1932,10 @@ strong {
 
 	.section {
 		padding-block: clamp(3.75rem, 15vw, 5rem);
+	}
+
+	.hero {
+		padding-block: 0;
 	}
 
 	.capabilities {
