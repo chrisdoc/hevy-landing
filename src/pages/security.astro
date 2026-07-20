@@ -1,0 +1,53 @@
+---
+import { transportModes } from "../data/setup";
+import DocsLayout from "../layouts/DocsLayout.astro";
+
+const title = "Security — Hevy MCP";
+const description = "How Hevy MCP handles API keys, OAuth grants, local credentials, and workout changes.";
+---
+
+<DocsLayout {title} {description} canonicalPath="/security/" breadcrumbs={[{ label: "Security" }]} previous={{ label: "Troubleshooting", href: "/docs/troubleshooting/" }} next={{ label: "FAQ", href: "/faq/" }}>
+	<header class="docs-hero">
+		<p class="context-line">Security and trust</p>
+		<h1>Know how your key is handled before you connect.</h1>
+		<p class="docs-lead">The connection method determines where your credential is presented. Hevy MCP does not receive the optional diagnostic key check, and the hosted worker does not store Direct HTTPS bearer keys.</p>
+	</header>
+
+	<div class="security-grid">
+		<section class="security-region" aria-labelledby="security-data-title">
+			<span class="security-region__number">01</span>
+			<h2 id="security-data-title">Data and tool access</h2>
+			<p>Hevy MCP exposes read tools plus create and update tools for workouts, routines, routine folders, custom exercise templates, and body measurements. The upstream Hevy API currently exposes no delete endpoints for these resources, so Hevy MCP does not provide delete tools.</p>
+			<p>Read tools can retrieve account and training data. The product is not globally read-only, and access is limited by the connected Hevy account and the API capabilities available to that account.</p>
+		</section>
+
+		<section class="security-region" aria-labelledby="security-credential-title">
+			<span class="security-region__number">02</span>
+			<h2 id="security-credential-title">Connection-specific credential handling</h2>
+			<div class="security-mode-list">
+				{transportModes.map((mode) => <div><strong>{mode.label}</strong><p>{mode.security}</p></div>)}
+			</div>
+			<p>The optional browser key check sends the entered value directly to Hevy's user-info endpoint and does not send it to this landing site.</p>
+		</section>
+
+		<section class="security-region" aria-labelledby="security-mutation-title">
+			<span class="security-region__number">03</span>
+			<h2 id="security-mutation-title">Create/update mutations need review</h2>
+			<p>Hevy MCP can create and update workouts, routines, routine folders, custom exercise templates, and body measurements. Compatible MCP clients can ask for confirmation before a mutation tool runs, but confirmation behavior belongs to the client.</p>
+			<p>Review the target, inputs, and proposed change before approving a mutation. Hevy MCP cannot promise a confirmation dialog in every client.</p>
+		</section>
+
+		<section class="security-region" aria-labelledby="security-revoke-title">
+			<span class="security-region__number">04</span>
+			<h2 id="security-revoke-title">Revoke by rotating the key</h2>
+			<p>Rotate your Hevy API key to invalidate browser OAuth grants, then remove the Hevy MCP connector or client configuration. Direct HTTPS and local mode stop working when that key is removed or replaced.</p>
+			<p>Keep configuration examples private, never put a key in a URL, and remove copied setup text from shared notes or screenshots.</p>
+		</section>
+	</div>
+
+	<section class="docs-callout" aria-labelledby="security-links-title">
+		<p class="eyebrow">Next steps</p>
+		<h2 id="security-links-title">Choose a method with its tradeoffs visible.</h2>
+		<p><a href="/docs/connect/">Compare connection methods</a> · <a href="/docs/getting-started/">Start setup</a> · <a href="/faq/">Read the FAQ</a></p>
+	</section>
+</DocsLayout>

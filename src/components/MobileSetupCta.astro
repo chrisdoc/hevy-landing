@@ -1,0 +1,30 @@
+<aside class="mobile-setup-cta" data-mobile-setup-cta data-visible="false" aria-label="Mobile setup shortcut">
+	<a class="button button--yellow" href="/docs/connect/browser/" data-setup-cta data-placement="mobile" data-method-id="oauth">Start browser setup <span aria-hidden="true">→</span></a>
+</aside>
+
+<script>
+	const root = document.querySelector<HTMLElement>("[data-mobile-setup-cta]");
+	const hero = document.querySelector<HTMLElement>("[data-hero]");
+	const finalCta = document.querySelector<HTMLElement>("[data-final-cta]");
+	const link = root?.querySelector<HTMLAnchorElement>("a");
+
+	if (root && hero && finalCta && link && "IntersectionObserver" in window) {
+		let heroVisible = true;
+		let finalVisible = false;
+		const update = () => {
+			const visible = !heroVisible && !finalVisible;
+			root.dataset.visible = String(visible);
+			link.tabIndex = visible ? 0 : -1;
+			root.setAttribute("aria-hidden", String(!visible));
+		};
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				if (entry.target === hero) heroVisible = entry.isIntersecting;
+				if (entry.target === finalCta) finalVisible = entry.isIntersecting;
+			});
+			update();
+		});
+		observer.observe(hero);
+		observer.observe(finalCta);
+	}
+</script>

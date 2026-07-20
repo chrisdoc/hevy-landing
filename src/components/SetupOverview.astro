@@ -1,0 +1,36 @@
+---
+import { getTransportBySlug, type TransportMode } from "../data/setup";
+import { methodOrder } from "../data/site-navigation";
+
+const methods: readonly TransportMode[] = methodOrder.map(getTransportBySlug);
+---
+
+<section class="setup-section section" id="setup" data-setup-section aria-labelledby="setup-title">
+	<div class="container">
+		<div class="section-heading section-heading--split">
+			<div>
+				<p class="context-line">Setup</p>
+				<h2 id="setup-title">Connect Hevy. Ask your first question.</h2>
+			</div>
+			<p>Choose the method your client supports. Every route ends with the same read-only account question.</p>
+		</div>
+
+		<ol class="activation-steps">
+			<li><span>01</span><strong>Choose a connection method</strong><small>Browser sign-in is recommended.</small></li>
+			<li><span>02</span><strong>Configure your AI assistant</strong><small>Use the client-specific instructions.</small></li>
+			<li><span>03</span><strong>Ask “Which Hevy account is connected?”</strong><small>Confirm the profile before exploring.</small></li>
+		</ol>
+
+		<div class="method-choice-grid" aria-label="Connection method choices">
+			{methods.map((mode) => (
+				<a class:list={["method-choice", mode.id === "oauth" && "method-choice--recommended"]} href={`/docs/connect/${mode.slug}/`} data-transport-choice data-method-id={mode.id}>
+					<div class="method-choice__topline"><span class="eyebrow">{mode.label}</span>{mode.badge && <span class="badge">{mode.badge}</span>}</div>
+					<strong>{mode.summary}</strong>
+					<span>{mode.audience}</span>
+					<em>View setup <span aria-hidden="true">→</span></em>
+				</a>
+			))}
+		</div>
+		<p class="setup-overview__clients">Works with Claude.ai, Codex, Claude Desktop, Cursor, and other compatible MCP clients. <a href="/docs/clients/">See client guides</a>.</p>
+	</div>
+</section>

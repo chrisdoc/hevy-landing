@@ -1,0 +1,73 @@
+---
+import ApiKeyCheck from "../../../components/ApiKeyCheck.astro";
+import FirstQuestion from "../../../components/FirstQuestion.astro";
+import SetupSnippet from "../../../components/SetupSnippet.astro";
+import { getClientGuide, getTransportBySlug, type TransportMode, type TransportSlug } from "../../../data/setup";
+import { clientOrder, methodOrder } from "../../../data/site-navigation";
+import DocsLayout from "../../../layouts/DocsLayout.astro";
+
+export function getStaticPaths() {
+	return methodOrder.map((slug) => ({
+		params: { method: slug },
+		props: { mode: getTransportBySlug(slug) },
+	}));
+}
+
+const { mode } = Astro.props as { mode: TransportMode };
+const title = `${mode.label} setup — Hevy MCP`;
+const description = `${mode.label} setup for Hevy MCP with the required Hevy PRO API key and compatible client configuration.`;
+const methodIndex = methodOrder.indexOf(mode.slug);
+const previousMode = methodIndex > 0 ? getTransportBySlug(methodOrder[methodIndex - 1] as TransportSlug) : undefined;
+const nextMode = methodIndex < methodOrder.length - 1 ? getTransportBySlug(methodOrder[methodIndex + 1] as TransportSlug) : undefined;
+const compatibleClients = clientOrder
+	.map((slug) => getClientGuide(slug))
+	.filter((guide) => guide.setups.some((setup) => setup.transportId === mode.id));
+---
+
+<DocsLayout
+	{title}
+	{description}
+	canonicalPath={`/docs/connect/${mode.slug}/`}
+	breadcrumbs={[{ label: "Docs", href: "/docs/" }, { label: "Connection methods", href: "/docs/connect/" }, { label: mode.label }]}
+	previous={previousMode ? { label: previousMode.label, href: `/docs/connect/${previousMode.slug}/` } : undefined}
+	next={nextMode ? { label: nextMode.label, href: `/docs/connect/${nextMode.slug}/` } : undefined}
+>
+	<header class="docs-hero">
+		<div class="docs-hero__title-row"><div><p class="context-line">Connection method</p><h1>{mode.label}</h1></div>{mode.badge && <span class="badge">{mode.badge}</span>}</div>
+		<p class="docs-lead">{mode.summary} {mode.description}</p>
+	</header>
+
+	<section class="docs-requirement" aria-labelledby="requirement-title">
+		<p class="eyebrow">Required first</p>
+		<h2 id="requirement-title">Hevy PRO and a Hevy API key.</h2>
+		<p>Hevy API access currently requires Hevy PRO. Create or rotate a key in <a href="https://hevy.com/settings?developer" target="_blank" rel="noreferrer">Hevy API settings <span aria-hidden="true">↗</span></a>, then keep it private.</p>
+	</section>
+
+	<section class="docs-section" aria-labelledby="setup-steps-title">
+		<div class="section-heading--compact"><p class="eyebrow">Configure</p><h2 id="setup-steps-title">Add {mode.label} to a compatible client.</h2></div>
+		<div class="setup-snippet-list">
+			{mode.clients.map((client) => <SetupSnippet methodId={mode.id} client={client} />)}
+		</div>
+	</section>
+
+	<ApiKeyCheck methodId={mode.id} />
+	<p class="skip-check">You can skip this check and continue directly to setup. The browser sends the key to Hevy, not to this site.</p>
+
+	<section class="docs-section" aria-labelledby="compatible-title">
+		<p class="eyebrow">Compatible guides</p>
+		<h2 id="compatible-title">Continue with your client.</h2>
+		<div class="link-list">
+			{compatibleClients.map((client) => (
+				<a href={`/docs/clients/${client.slug}/`} data-client-guide data-client-id={client.slug} data-method-id={mode.id}><strong>{client.label}</strong><span>{client.summary}</span></a>
+			))}
+		</div>
+		{compatibleClients.length === 0 && <p>Check whether your client supports this transport, then return to the <a href="/docs/clients/">client guides</a>.</p>}
+	</section>
+
+	<FirstQuestion />
+
+	<section class="docs-next-steps" aria-label="Further help">
+		<p><strong>Credential handling:</strong> {mode.security}</p>
+		<p><a href="/security/">Read the security details</a> · <a href="/docs/troubleshooting/">Troubleshoot a connection</a> · <a href="/docs/getting-started/">Back to getting started</a></p>
+	</section>
+</DocsLayout>

@@ -1,0 +1,34 @@
+---
+import { getTransportBySlug } from "../../../data/setup";
+import { methodOrder } from "../../../data/site-navigation";
+import DocsLayout from "../../../layouts/DocsLayout.astro";
+
+const title = "Connection methods — Hevy MCP";
+const description = "Compare browser sign-in, Direct HTTPS, and local stdio for Hevy MCP.";
+const methods = methodOrder.map(getTransportBySlug);
+---
+
+<DocsLayout {title} {description} canonicalPath="/docs/connect/" breadcrumbs={[{ label: "Docs", href: "/docs/" }, { label: "Connection methods" }]} previous={{ label: "Getting started", href: "/docs/getting-started/" }} next={{ label: "Client guides", href: "/docs/clients/" }}>
+	<header class="docs-hero">
+		<p class="context-line">Connection methods</p>
+		<h1>Compare the three ways to connect Hevy MCP.</h1>
+		<p class="docs-lead">All three methods reach the same MCP tools. The difference is where sign-in happens, how the key is presented, and which client capabilities are required.</p>
+	</header>
+
+	<div class="method-list">
+		{methods.map((mode) => (
+			<article class:list={["method-card", mode.id === "oauth" && "method-card--recommended"]}>
+				<div class="method-card__header">
+					<div><p class="eyebrow">{mode.slug === "browser" ? "Recommended first" : mode.audience}</p><h2>{mode.label}</h2></div>
+					{mode.badge && <span class="badge">{mode.badge}</span>}
+				</div>
+				<p class="method-card__summary">{mode.summary}</p>
+				<p>{mode.description}</p>
+				<p class="method-card__security"><strong>Credential handling:</strong> {mode.security}</p>
+				<a class="button button--yellow" href={`/docs/connect/${mode.slug}/`} data-transport-choice data-method-id={mode.id}>View {mode.label} setup <span aria-hidden="true">→</span></a>
+			</article>
+		))}
+	</div>
+
+	<p class="docs-inline-link">Need a client-specific order? <a href="/docs/clients/">Open the client guides</a>.</p>
+</DocsLayout>

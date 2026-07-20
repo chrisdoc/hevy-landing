@@ -1,21 +1,28 @@
 ---
+import { footerGroups, githubUrl } from "../data/site-navigation";
 import BrandMark from "./BrandMark.astro";
 ---
 
 <footer class="site-footer">
 	<div class="container site-footer__inner">
-		<div>
-			<a class="wordmark" href="#top" aria-label="Hevy MCP home">
+		<div class="site-footer__brand">
+			<a class="wordmark" href="/" aria-label="Hevy MCP home">
 				<BrandMark />
 				<span>hevy <span class="wordmark__mcp">mcp</span></span>
 			</a>
 			<p>Independent, open source, and built to turn training data into useful answers.</p>
 		</div>
-		<nav aria-label="Footer navigation">
-			<a href="https://github.com/chrisdoc/hevy-mcp">GitHub</a>
-			<a href="https://www.npmjs.com/package/hevy-mcp">npm</a>
-			<a href="https://github.com/chrisdoc/hevy-mcp/issues">Issues</a>
-			<a href="https://github.com/chrisdoc/hevy-mcp/blob/main/LICENSE">MIT license</a>
+		<nav class="site-footer__groups" aria-label="Footer navigation">
+			{footerGroups.map((group) => (
+				<div class="site-footer__group">
+					<h2>{group.label}</h2>
+					<ul>
+						{group.links.map((link) => (
+							<li><a href={link.href} data-github-link={link.href === githubUrl ? true : undefined} data-placement={link.href === githubUrl ? "footer" : undefined}>{link.label}</a></li>
+						))}
+					</ul>
+				</div>
+			))}
 		</nav>
 	</div>
 	<div class="container site-footer__legal">

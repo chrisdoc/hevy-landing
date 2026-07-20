@@ -1,0 +1,33 @@
+---
+import { getTransportBySlug, hevyApiKeyUrl, type TransportId } from "../data/setup";
+
+interface Props {
+	methodId: TransportId;
+}
+
+const { methodId } = Astro.props;
+const mode = getTransportBySlug(methodId === "oauth" ? "browser" : methodId === "https" ? "https" : "local");
+---
+
+<section class="api-key-check" data-key-check-root data-method-id={methodId} aria-labelledby={`key-check-${methodId}`}>
+	<div>
+		<p class="eyebrow">Optional: verify your Hevy API key</p>
+		<h2 id={`key-check-${methodId}`}>Check the key directly with Hevy.</h2>
+		<p>
+			This diagnostic sends the key only to Hevy's user-info endpoint. It does not send the key to Hevy MCP or this site.
+		</p>
+	</div>
+	<form data-key-check-form>
+		<label for={`hevy-api-key-${methodId}`}>Hevy API key</label>
+		<div class="key-check__controls">
+			<input id={`hevy-api-key-${methodId}`} name="hevy-api-key" type="password" autocomplete="off" spellcheck="false" placeholder="Paste a key to verify" />
+			<button class="button button--outline" type="submit" data-key-check-button>Check key</button>
+		</div>
+		<p class="form-help">Keep the key private. Hevy PRO API access is required.</p>
+		<p class="key-check__status" data-key-check-status role="status" aria-live="polite">No request has been sent.</p>
+	</form>
+	<p class="api-key-check__link">
+		Need a key? <a href={hevyApiKeyUrl} target="_blank" rel="noreferrer" data-api-key-settings data-method-id={methodId}>Open Hevy API settings <span aria-hidden="true">↗</span></a>.
+	</p>
+	<p class="sr-only">This check is for {mode.label}; completing it does not activate your MCP connection.</p>
+</section>

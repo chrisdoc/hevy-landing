@@ -1,0 +1,61 @@
+---
+import FirstQuestion from "../../../components/FirstQuestion.astro";
+import SetupSnippet from "../../../components/SetupSnippet.astro";
+import { getClientGuide, getClientSetup, type ClientGuide, type ClientGuideSlug } from "../../../data/setup";
+import { clientOrder } from "../../../data/site-navigation";
+import DocsLayout from "../../../layouts/DocsLayout.astro";
+
+export function getStaticPaths() {
+	return clientOrder.map((slug) => ({
+		params: { client: slug },
+		props: { guide: getClientGuide(slug) },
+	}));
+}
+
+const { guide } = Astro.props as { guide: ClientGuide };
+const title = `${guide.label} setup — Hevy MCP`;
+const description = `${guide.summary} Hevy MCP is free and MIT licensed; Hevy PRO API access is required.`;
+const clientIndex = clientOrder.indexOf(guide.slug);
+const previousGuide = clientIndex > 0 ? getClientGuide(clientOrder[clientIndex - 1] as ClientGuideSlug) : undefined;
+const nextGuide = clientIndex < clientOrder.length - 1 ? getClientGuide(clientOrder[clientIndex + 1] as ClientGuideSlug) : undefined;
+const setups = guide.setups.map((ref) => ({ ref, ...getClientSetup(ref) }));
+---
+
+<DocsLayout
+	{title}
+	{description}
+	canonicalPath={`/docs/clients/${guide.slug}/`}
+	breadcrumbs={[{ label: "Docs", href: "/docs/" }, { label: "Client guides", href: "/docs/clients/" }, { label: guide.label }]}
+	previous={previousGuide ? { label: previousGuide.label, href: `/docs/clients/${previousGuide.slug}/` } : undefined}
+	next={nextGuide ? { label: nextGuide.label, href: `/docs/clients/${nextGuide.slug}/` } : undefined}
+>
+	<header class="docs-hero">
+		<p class="context-line">Client guide</p>
+		<h1>{guide.label}</h1>
+		<p class="docs-lead">{guide.summary} All setup options below are ordered for this client and use the shared verified configuration.</p>
+	</header>
+
+	<section class="docs-requirement" aria-labelledby="client-requirement-title">
+		<p class="eyebrow">Before setup</p>
+		<h2 id="client-requirement-title">Hevy PRO API access is required.</h2>
+		<p>Create a Hevy API key in <a href="https://hevy.com/settings?developer" target="_blank" rel="noreferrer">Hevy API settings <span aria-hidden="true">↗</span></a> and keep it private. Review the <a href="/security/">credential behavior</a> for the method you choose.</p>
+	</section>
+
+	<section class="docs-section" aria-labelledby="client-steps-title">
+		<div class="section-heading--compact"><p class="eyebrow">Setup order</p><h2 id="client-steps-title">Use {guide.label} with Hevy MCP.</h2></div>
+		<div class="setup-snippet-list">
+			{setups.map(({ ref, mode, client }) => (
+				<div class="client-setup-block">
+					<div class="client-setup-block__method"><span class="eyebrow">{mode.label}</span><a href={`/docs/connect/${mode.slug}/`} data-transport-choice data-method-id={mode.id}>View method details</a></div>
+					<SetupSnippet methodId={ref.transportId} client={client} />
+				</div>
+			))}
+		</div>
+	</section>
+
+	<FirstQuestion />
+
+	<section class="docs-next-steps" aria-label="Further help">
+		<p><a href="/docs/getting-started/">Back to getting started</a> · <a href="/docs/clients/">All client guides</a> · <a href="/security/">Security</a> · <a href="/docs/troubleshooting/">Troubleshooting</a></p>
+	</section>
+</DocsLayout>

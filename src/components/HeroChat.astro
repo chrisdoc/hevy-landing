@@ -106,14 +106,14 @@
 			});
 			loopTimer = window.setTimeout(() => {
 				elapsed = 0;
-				setStage(-1);
+				setStage(0);
 				schedule();
 			}, loopDuration - elapsed);
 		};
 
 		const restart = () => {
 			elapsed = 0;
-			setStage(reducedMotion.matches ? 5 : -1);
+			setStage(reducedMotion.matches ? 5 : 0);
 			schedule();
 		};
 

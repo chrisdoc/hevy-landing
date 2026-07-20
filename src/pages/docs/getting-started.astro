@@ -1,0 +1,49 @@
+---
+import { getTransportBySlug } from "../../data/setup";
+import { methodOrder } from "../../data/site-navigation";
+import DocsLayout from "../../layouts/DocsLayout.astro";
+
+const title = "Getting started — Hevy MCP";
+const description = "Choose a Hevy MCP connection method and ask your first read-only account question.";
+const methods = methodOrder.map(getTransportBySlug);
+---
+
+<DocsLayout {title} {description} canonicalPath="/docs/getting-started/" breadcrumbs={[{ label: "Docs", href: "/docs/" }, { label: "Getting started" }]} next={{ label: "Connection methods", href: "/docs/connect/" }}>
+	<header class="docs-hero">
+		<p class="context-line">Getting started</p>
+		<h1>Connect Hevy, then ask your first question.</h1>
+		<p class="docs-lead">The activation path is the same whichever transport you choose: pick a method, configure your AI assistant, and verify the connected account with one read-only prompt.</p>
+	</header>
+
+	<ol class="steps-list">
+		<li>
+			<span class="steps-list__number">01</span>
+			<div><h2>Choose a connection method</h2><p>Browser sign-in is recommended for most people. Direct HTTPS accepts a fixed API key, while local stdio keeps the server process on your machine.</p></div>
+		</li>
+		<li>
+			<span class="steps-list__number">02</span>
+			<div><h2>Configure your AI assistant</h2><p>Open the method or client guide for the exact endpoint, command, configuration, and restart step.</p></div>
+		</li>
+		<li>
+			<span class="steps-list__number">03</span>
+			<div><h2>Ask “Which Hevy account is connected?”</h2><p>The question is read-only and confirms that the assistant is reaching the intended Hevy profile.</p></div>
+		</li>
+	</ol>
+
+	<section class="docs-card-grid docs-card-grid--methods" aria-labelledby="method-choice-title">
+		<div class="section-heading--compact"><p class="eyebrow">Choose your method</p><h2 id="method-choice-title">Start with the route your client supports.</h2></div>
+		{methods.map((mode) => (
+			<a class="docs-card" href={`/docs/connect/${mode.slug}/`} data-transport-choice data-method-id={mode.id}>
+				{mode.badge && <span class="badge">{mode.badge}</span>}
+				<strong>{mode.label}</strong>
+				<span>{mode.summary}</span>
+			</a>
+		))}
+	</section>
+
+	<section class="docs-callout" aria-labelledby="upstream-title">
+		<p class="eyebrow">Full reference</p>
+		<h2 id="upstream-title">Need every upstream option?</h2>
+		<p><a href="https://github.com/chrisdoc/hevy-mcp#quick-start" data-github-link data-placement="docs">Read the complete setup guide</a> for Bun, Docker, environment details, and the complete upstream quick start.</p>
+	</section>
+</DocsLayout>

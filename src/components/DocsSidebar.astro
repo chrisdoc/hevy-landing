@@ -1,0 +1,28 @@
+---
+import { docsSidebarGroups } from "../data/site-navigation";
+
+interface Props {
+	currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+---
+
+<aside class="docs-sidebar">
+	<nav aria-label="Documentation navigation">
+		{docsSidebarGroups.map((group) => (
+			<div class="docs-sidebar__group">
+				<h2>{group.label}</h2>
+				<ul>
+					{group.links.map((link) => (
+						<li>
+							<a class:list={{ "is-current": currentPath === link.href }} href={link.href} aria-current={currentPath === link.href ? "page" : undefined}>
+								{link.label}
+							</a>
+						</li>
+					))}
+				</ul>
+			</div>
+		))}
+	</nav>
+</aside>

@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://hevy-mcp.dev/sitemap-index.xml

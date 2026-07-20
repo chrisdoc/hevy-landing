@@ -1,0 +1,16 @@
+---
+import { connectionPrompt } from "../data/setup";
+---
+
+<section class="first-question" aria-labelledby="first-question-title">
+	<div>
+		<p class="eyebrow">Verify the connection</p>
+		<h2 id="first-question-title">Ask your first read-only question.</h2>
+		<p>After reconnecting your client, paste this prompt. A successful answer names the Hevy account connected to the client.</p>
+	</div>
+	<div class="first-question__copy" data-copy-root data-copy-kind="question">
+		<code data-copy-target tabindex="0">{connectionPrompt}</code>
+		<button class="copy-button" type="button" data-copy-button><span data-copy-label>Copy question</span></button>
+		<p class="copy-status" data-copy-status role="status" aria-live="polite">The prompt stays on this page until you copy it.</p>
+	</div>
+</section>
