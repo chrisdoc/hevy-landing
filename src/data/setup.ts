@@ -31,7 +31,7 @@ export const transportModes: readonly TransportMode[] = [
 				id: "claude-ai",
 				label: "Claude.ai",
 				format: "url",
-				code: "https://hevy.chrisdoc.dev/mcp",
+				code: "https://mcp.hevy-mcp.dev/mcp",
 				verificationLabel: "Next",
 				verification:
 					"Add this URL as a custom connector. Continue in the browser, paste your Hevy API key once, and approve access.",
@@ -40,7 +40,7 @@ export const transportModes: readonly TransportMode[] = [
 				id: "oauth-client",
 				label: "Other OAuth clients",
 				format: "url",
-				code: "https://hevy.chrisdoc.dev/mcp",
+				code: "https://mcp.hevy-mcp.dev/mcp",
 				verificationLabel: "Next",
 				verification:
 					"Add this as a remote MCP server. Compatible OAuth 2.1 clients discover the authorization flow and open it in your browser.",
@@ -58,7 +58,7 @@ export const transportModes: readonly TransportMode[] = [
 				id: "codex",
 				label: "Codex",
 				format: "shell",
-				code: "export HEVY_API_KEY=your-hevy-api-key\ncodex mcp add hevy \\\n  --url https://hevy.chrisdoc.dev/mcp \\\n  --bearer-token-env-var HEVY_API_KEY",
+				code: "export HEVY_API_KEY=your-hevy-api-key\ncodex mcp add hevy \\\n  --url https://mcp.hevy-mcp.dev/mcp \\\n  --bearer-token-env-var HEVY_API_KEY",
 				verification:
 					"Restart Codex or begin a new session, then run codex mcp list to verify the server is configured.",
 			},
@@ -69,7 +69,7 @@ export const transportModes: readonly TransportMode[] = [
 				code: `{
   "mcpServers": {
     "hevy": {
-      "url": "https://hevy.chrisdoc.dev/mcp",
+      "url": "https://mcp.hevy-mcp.dev/mcp",
       "headers": {
         "Authorization": "Bearer your-hevy-api-key"
       }
