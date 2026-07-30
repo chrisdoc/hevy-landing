@@ -25,6 +25,8 @@ The production output is generated in `dist/`. Wrangler publishes that directory
 
 Umami is configured at build time through `PUBLIC_UMAMI_SCRIPT_URL` and `PUBLIC_UMAMI_WEBSITE_ID`. Set both as Cloudflare Workers Build variables; they are not runtime Worker bindings.
 
+Heatmaps and session recordings are injected by `src/worker.ts` only for requests from outside the EU/EEA, the UK, and Switzerland. Requests without a Cloudflare country signal are not recorded. The Worker uses Cloudflare's country detection before the browser receives the recorder script; update the region list and add a consent mechanism before enabling recording for protected regions.
+
 ## Content maintenance
 
 - Transport and client instructions live in `src/data/setup.ts` and feed the setup guide.
