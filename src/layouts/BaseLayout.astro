@@ -1,9 +1,4 @@
 ---
-import "@fontsource-variable/archivo";
-import "@fontsource-variable/martian-mono";
-import archivoLatin from "@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2";
-import "../styles/global.css";
-
 interface Props {
 	title: string;
 	description: string;
@@ -29,21 +24,22 @@ if (import.meta.env.PROD && !umamiWebsiteId) {
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="description" content={description} />
-		<meta name="theme-color" content="#007A82" />
-		<link rel="preload" href={archivoLatin} as="font" type="font/woff2" crossorigin />
+		<meta name="theme-color" content="#111d2c" />
 		<meta name="color-scheme" content="light" />
 		<link rel="canonical" href={canonical} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="Hevy MCP" />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonical} />
 		<meta property="og:image" content={new URL("/og-card.png", canonical)} />
-		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:card" content="summary" />
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={new URL("/og-card.png", canonical)} />
 		<title>{title}</title>
+		<slot name="head" />
 		<script is:inline type="application/ld+json" set:html={JSON.stringify({
 			"@context": "https://schema.org",
 			"@type": "SoftwareApplication",

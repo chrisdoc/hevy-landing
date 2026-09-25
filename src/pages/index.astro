@@ -1,79 +1,114 @@
 ---
-import Capabilities from "../components/Capabilities.astro";
-import DemoSection from "../components/DemoSection.astro";
-import FaqSection from "../components/FaqSection.astro";
-import HeroChat from "../components/HeroChat.astro";
-import ProblemSection from "../components/ProblemSection.astro";
-import SetupGuide from "../components/SetupGuide.astro";
-import SiteFooter from "../components/SiteFooter.astro";
-import SiteHeader from "../components/SiteHeader.astro";
-import { toolCount } from "../data/setup";
+import "../styles/homepage.css";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const title = "Hevy MCP — Talk to your Hevy data from your AI assistant";
+const title = "Hevy MCP — Connect Your AI Assistant to Hevy";
 const description =
-	"Connect Hevy workouts, routines, exercises, and measurements to Claude, Cursor, Codex, and other MCP clients.";
-
+	"Connect Claude, Codex, or another AI assistant to Hevy. Review workouts, create routines, and update your log. Includes hosted and local setup instructions.";
 ---
 
 <BaseLayout {title} {description}>
-	<div id="top"></div>
-	<SiteHeader />
-	<main id="main-content">
-		<section class="hero section" aria-labelledby="hero-title">
-			<div class="container hero__layout">
-				<div class="hero__copy">
-					<p class="context-line">Connect Hevy to the AI assistant you already use</p>
-					<h1 id="hero-title">Talk to your <span>Hevy data</span> from your AI assistant.</h1>
-					<p class="hero__lead">
-						Hevy MCP is the connector that lets Claude, Cursor, Codex, and other AI assistants use your
-						workouts, routines, exercise history, and measurements. Analyze progress, find what you need,
-						and log changes in plain language.
-					</p>
-					<div class="hero__actions">
-						<a class="button button--ink" href="#setup" data-setup-mode="oauth">Connect Hevy <span aria-hidden="true">→</span></a>
-						<a class="button button--outline" href="#setup" data-setup-mode="stdio">Run Hevy MCP locally</a>
-					</div>
-					<p class="hero__independence">Independent, open-source connector for the Hevy API.</p>
-					<div class="hero__meta">
-						<a class="text-link" href="https://github.com/chrisdoc/hevy-mcp">View source on GitHub <span aria-hidden="true">↗</span></a>
-						<span>Hevy PRO API access is required.</span>
-					</div>
-					<div class="hero__proof" aria-label="Project facts">
-						<span>{toolCount} focused tools</span><span>3 connection methods</span><span>18-second demo</span><span>MIT licensed open source</span>
-					</div>
-				</div>
+	<link slot="head" rel="preconnect" href="https://fonts.googleapis.com" />
+	<link slot="head" rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link
+		slot="head"
+		rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&amp;family=Manrope:wght@400;600;700;800&amp;display=optional"
+	/>
 
-				<div class="hero__visual">
-					<HeroChat />
-				</div>
-			</div>
-		</section>
+<header class="wrap nav"><a class="wordmark" href="#" aria-label="Hevy MCP home">hevy<span>/mcp</span></a><nav aria-label="Main navigation"><a href="#possibilities">What it does</a><a href="#how">How it works</a><a class="nav-cta" href="#setup">Set up <span aria-hidden="true">↗</span></a></nav></header>
+<main id="main-content">
+<section class="hero wrap">
+  <div class="hero-copy"><h1>Ask about<br>your Hevy<br><span>workouts.</span></h1><p class="intro">Hevy MCP connects Claude, Codex, and other AI assistants to your Hevy account. Ask about past workouts, create routines, or update your log.</p><div class="actions"><a class="button lime" href="#setup">Set up Hevy MCP <span aria-hidden="true">↗</span></a><span class="project-links"><a class="text-link" href="https://github.com/chrisdoc/hevy-mcp">GitHub project ↗</a><a class="text-link" href="https://www.npmjs.com/package/hevy-mcp">npm package ↗</a></span></div><p class="fine">Open source · Hevy PRO API key required</p></div>
+  <div class="conversation"><div class="conversation-top"><span>TRY ASKING</span><span class="example">EXAMPLE</span></div><div class="user-message">What does my training over the last six weeks look like?</div><div class="tool-call"><span aria-hidden="true">↳</span> hevy / get-training-summary <span>6 weeks</span></div><div class="assistant-message"><p class="response-label">What your assistant can retrieve</p><h2>Six weeks of<br>workout history.</h2><p>The training summary includes workout activity and body-measurement trends. Your assistant can use it to answer questions about how often you trained and what changed.</p><div class="evidence"><span>Recorded workouts</span><span>Body measurements</span></div></div><p class="demo-note">Example request. Connect your account to get your own results.</p></div>
+</section>
+<div class="compatibility"><div class="wrap"><span>WORKS WITH</span><p>Claude <i aria-hidden="true">/</i> Codex <i aria-hidden="true">/</i> Cursor <i aria-hidden="true">/</i> Other MCP clients</p></div></div>
+<section class="wrap section" id="possibilities"><div class="section-heading"><h2>What you can do</h2><p>The server has 22 tools for reading and updating your Hevy data.</p></div><div class="feature-grid">
+<article><h3>Review your training</h3><p>Get a summary of the last 1–12 weeks. Look up individual workouts, past sets for an exercise, or changes in body measurements.</p><blockquote>“How consistent have I been over the last four weeks?”</blockquote></article>
+<article><h3>Create and edit routines</h3><p>Find a saved routine or create a new one. Choose exercises, sets, rep ranges, and rest times through your assistant.</p><blockquote>“Find my push-day routine and show me its exercises and sets.”</blockquote></article>
+<article><h3>Log completed workouts</h3><p>Save a workout after training or correct an existing entry. You can also add custom exercises and record body measurements.</p><blockquote>“Log a workout from my routine. Ask me for the actual set results first.”</blockquote></article>
+</div><a class="text-link dark-link" href="https://github.com/chrisdoc/hevy-mcp#tools">See all 22 tools on GitHub ↗</a></section>
+<section class="how-section" id="how" aria-labelledby="how-title">
+  <div class="wrap how-layout">
+    <div class="how-heading">
+      <h2 id="how-title">How it works</h2>
+      <p>MCP stands for Model Context Protocol. It lets an AI assistant connect to services such as Hevy. This server uses your Hevy API key to read or update your account when the assistant requests it.</p>
+    </div>
+    <ol class="steps" role="list">
+      <li><span aria-hidden="true">1</span><div><h3>You ask your assistant</h3><p>Ask a question about your workouts, or describe what you want to create or change.</p></div></li>
+      <li><span aria-hidden="true">2</span><div><h3>The assistant calls Hevy MCP</h3><p>The server sends the request to Hevy. You can use the hosted server or run it on your computer.</p></div></li>
+      <li><span aria-hidden="true">3</span><div><h3>Your assistant gets the result</h3><p>It uses the returned data to answer your question or tell you whether the requested update succeeded.</p></div></li>
+    </ol>
+    <p class="callout">Some tools change your Hevy data. If your assistant supports tool approvals, use them to check changes before they are saved.</p>
+  </div>
+</section>
+<section class="wrap section community" id="community" aria-labelledby="community-title">
+<div class="section-heading"><h2 id="community-title">From the community</h2><p>Comments from Reddit. Follow the links to read each discussion in full.</p></div>
+<div class="community-quotes">
+<figure>
+<blockquote cite="https://www.reddit.com/r/Hevy/comments/1v65sdv/comment/ozonqz1/"><p>“I added it to my hermes setup and it works great to get an overview of my workouts. No issues so far”</p></blockquote>
+<figcaption><a href="https://www.reddit.com/r/Hevy/comments/1v65sdv/comment/ozonqz1/">u/peterbold <span>on Reddit ↗</span></a></figcaption>
+</figure>
+<figure>
+<blockquote cite="https://www.reddit.com/r/Hevy/comments/1swircs/comment/oigyfrg/"><p>“Have been using this one for weeks, it's pretty decent”</p></blockquote>
+<figcaption><a href="https://www.reddit.com/r/Hevy/comments/1swircs/comment/oigyfrg/">u/drkostas7 <span>on Reddit ↗</span></a></figcaption>
+<p class="quote-context">Replying to a link to chrisdoc/hevy-mcp.</p>
+</figure>
+<figure>
+<blockquote cite="https://www.reddit.com/r/Hevy/comments/1v65sdv/comment/ozoeo3v/"><p>“I use this multiple times a week and it's been super helpful. I use it to analyze my training on a weekly basis, create new training blocks and routines.”</p></blockquote>
+<figcaption><a href="https://www.reddit.com/r/Hevy/comments/1v65sdv/comment/ozoeo3v/">u/StrobeWafel_404 <span>on Reddit ↗</span></a></figcaption>
+<p class="quote-context">The full comment also raises concerns about telemetry, self-hosting, tool size, and updates.</p>
+</figure>
+<figure>
+<blockquote cite="https://www.reddit.com/r/Hevy/comments/1mq8tyi/comment/n99fo25/"><p>“yes I start using now this https://github.com/chrisdoc/hevy-mcp with Cursor and is much better.”</p></blockquote>
+<figcaption><a href="https://www.reddit.com/r/Hevy/comments/1mq8tyi/comment/n99fo25/">u/asyba <span>on Reddit ↗</span></a></figcaption>
+<p class="quote-context">Posted in a discussion about problems with an earlier ChatGPT integration.</p>
+</figure>
+<figure>
+<blockquote cite="https://www.reddit.com/r/Hevy/comments/1uebtde/comment/otjdnbc/"><p>“I asked Claude code to find one 2 days ago, it reported it found 8 existing ones already, it did the analysis and selected the best and most mature one on github and installed it (chrisdoc/hevy-mcp on github).”</p></blockquote>
+<figcaption><a href="https://www.reddit.com/r/Hevy/comments/1uebtde/comment/otjdnbc/">u/finik21 <span>on Reddit ↗</span></a></figcaption>
+<p class="quote-context">Describing Claude Code’s selection. The commenter went on to use it to modify their training programme.</p>
+</figure>
+<figure>
+<blockquote cite="https://www.reddit.com/r/Hevy/comments/1jl0h9c/comment/mk2l09l/"><p>“Nice work dude, this is awesome!”</p></blockquote>
+<figcaption><a href="https://www.reddit.com/r/Hevy/comments/1jl0h9c/comment/mk2l09l/">u/twas252 <span>on Reddit ↗</span></a></figcaption>
+<p class="quote-context">A reaction to the project announcement.</p>
+</figure>
+</div>
+</section>
+<section class="wrap section setup" id="setup"><div class="section-heading"><h2>Set up Hevy MCP</h2><p>You’ll need a Hevy API key and an assistant that supports MCP. Use the hosted server to connect without installing anything, or run it on your own computer.</p></div>
+<div class="prerequisite"><span class="number">1</span><div><h3>Get your Hevy API key</h3><p>API access requires a <strong>Hevy PRO subscription</strong>. Create your key in <a href="https://www.hevyapp.com/api">Hevy’s API settings ↗</a> and keep it secure. You’ll enter it during setup, not on this website.</p></div></div>
+<div class="setup-box"><div class="setup-title"><span class="number">2</span><h3>Connect your assistant</h3></div><div class="tabs" hidden role="tablist" aria-label="Setup client"><button id="tab-claude" role="tab" aria-selected="true" aria-controls="panel-claude">Claude</button><button id="tab-codex" role="tab" aria-selected="false" aria-controls="panel-codex" tabindex="-1">Codex</button><button id="tab-http" role="tab" aria-selected="false" aria-controls="panel-http" tabindex="-1">Other HTTP clients</button><button id="tab-local" role="tab" aria-selected="false" aria-controls="panel-local" tabindex="-1">Run locally</button></div>
+<div class="panel" id="panel-claude"><div class="panel-heading"><h4>Set up Claude</h4><span class="badge">NO INSTALL REQUIRED</span></div><p>In Claude, open <strong>Settings → Connectors → Add custom connector</strong>. Paste this URL:</p><div class="code-wrap"><button class="copy" data-copy="claude-url" aria-label="Copy hosted MCP URL">Copy</button><pre><code id="claude-url">https://mcp.hevy-mcp.dev/mcp</code></pre></div><p>Follow the authorization steps and enter your Hevy API key when asked. Once connected, try the question below.</p><p class="fine">Your Claude account needs access to custom connectors. The same URL works in Claude Desktop.</p></div>
+<div class="panel" id="panel-codex"><h4>Set up Codex</h4><p>In the terminal you use to start Codex, set your API key and add the server:</p><div class="code-wrap"><button class="copy" data-copy="codex-code" aria-label="Copy Codex configuration">Copy</button><pre><code id="codex-code">export HEVY_API_KEY=your-hevy-api-key
+codex mcp add hevy \
+  --url https://mcp.hevy-mcp.dev/mcp \
+  --bearer-token-env-var HEVY_API_KEY</code></pre></div><p>Replace <code>your-hevy-api-key</code> with your key. Restart Codex or start a new session, then run <code>codex mcp list</code> to check the configuration.</p><p class="fine">Codex CLI, the desktop app, and the IDE extension share this configuration. The app you launch must have access to the <code>HEVY_API_KEY</code> environment variable.</p></div>
+<div class="panel" id="panel-http"><h4>Set up another HTTP client</h4><p>Your client needs to support Streamable HTTP and an Authorization header. Use this as a starting point and check your client’s documentation for its configuration format.</p><div class="code-wrap"><button class="copy" data-copy="http-code" aria-label="Copy HTTP client configuration">Copy</button><pre><code id="http-code">&#123;
+  "mcpServers": &#123;
+    "hevy": &#123;
+      "url": "https://mcp.hevy-mcp.dev/mcp",
+      "headers": &#123;
+        "Authorization": "Bearer your-hevy-api-key"
+      &#125;
+    &#125;
+  &#125;
+&#125;</code></pre></div><p>Replace <code>your-hevy-api-key</code> with your key and reconnect your client. Keep the configuration file private because it contains your key.</p></div>
+<div class="panel" id="panel-local"><h4>Run on your own machine</h4><p>Install <strong>Node.js 20 or newer</strong>, then add the entry below to your client’s MCP configuration. This works with Claude Desktop, Cursor, and other clients that can start a local MCP server. Keep any existing server entries.</p><div class="code-wrap"><button class="copy" data-copy="local-code" aria-label="Copy local server configuration">Copy</button><pre><code id="local-code">&#123;
+  "mcpServers": &#123;
+    "hevy": &#123;
+      "command": "npx",
+      "args": ["-y", "hevy-mcp"],
+      "env": &#123;
+        "HEVY_API_KEY": "your-hevy-api-key"
+      &#125;
+    &#125;
+  &#125;
+&#125;</code></pre></div><p>Replace <code>your-hevy-api-key</code> with your key, keep the file private, and restart your client. Cursor uses <code>~/.cursor/mcp.json</code>.</p><a href="https://github.com/chrisdoc/hevy-mcp#run-locally-instead">See file locations and setup options for Bun and Docker ↗</a></div></div>
+<div class="first-question"><span class="number">3</span><div><h3>Ask your first question</h3><p id="first-prompt">Give me a training summary for the last four weeks.</p></div><button class="copy-prompt" data-copy="first-prompt" aria-label="Copy first question">Copy prompt ↗</button></div><p class="troubleshoot">If the connection fails, check that your API key is correct and that your client supports the setup method you chose. Try restarting the client after saving its settings. <a href="https://github.com/chrisdoc/hevy-mcp#quick-start">Read the setup docs ↗</a></p>
+</section>
+<section class="privacy wrap"><div><h2>What happens to your data</h2></div><div><p>The hosted server processes the Hevy data needed to answer each request. It doesn’t keep a shared database of your workouts. Keys sent directly in an Authorization header aren’t saved. For OAuth connections, authorization grants are stored encrypted so your assistant can stay connected.</p><p>The results are sent to your AI assistant, whose own privacy policy applies. The hosted server also collects operational data, described in the privacy policy below. If you run Hevy MCP locally, requests go from your computer to Hevy.</p><a href="https://github.com/chrisdoc/hevy-mcp/blob/main/docs/privacy-policy.md">Read the privacy policy ↗</a></div></section>
+</main><footer class="wrap"><div><a class="wordmark" href="#">hevy<span>/mcp</span></a><p>Built by Christoph Kieslich. Open source under the MIT license.<br>Not an official Hevy product.</p></div><div class="footer-links"><a href="https://github.com/chrisdoc/hevy-mcp">GitHub project ↗</a><a href="https://www.npmjs.com/package/hevy-mcp">npm package ↗</a><a href="https://github.com/chrisdoc/hevy-mcp/issues">Report an issue ↗</a><a href="https://github.com/chrisdoc/hevy-mcp/blob/main/LICENSE">MIT License ↗</a></div></footer><div id="copy-status" class="sr-only" role="status" aria-live="polite"></div>
 
-		<ProblemSection />
-		<Capabilities />
-		<DemoSection />
-		<SetupGuide />
-		<FaqSection />
-
-		<section class="final-cta section" aria-labelledby="final-cta-title">
-			<div class="container final-cta__layout">
-				<div>
-					<p class="context-line">Start with one useful question</p>
-					<h2 id="final-cta-title">Put your Hevy data to work.</h2>
-					<p>
-						Connect in the browser for the shortest path—no local install required. Prefer local control?
-						Run the same open-source server on your machine. Hevy PRO API access is required.
-						Inspect the source on GitHub and choose the connection method that fits your workflow.
-					</p>
-				</div>
-				<div class="final-cta__actions">
-					<a class="button button--yellow" href="#setup" data-setup-mode="oauth">Connect Hevy <span aria-hidden="true">→</span></a>
-					<a class="button button--light-outline" href="#setup" data-setup-mode="stdio">Run Hevy MCP locally</a>
-					<a class="text-link text-link--light" href="https://github.com/chrisdoc/hevy-mcp">Explore the open-source project <span aria-hidden="true">↗</span></a>
-				</div>
-			</div>
-		</section>
-	</main>
-	<SiteFooter />
+	<script src="../scripts/homepage.js"></script>
 </BaseLayout>
