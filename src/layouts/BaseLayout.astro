@@ -39,7 +39,6 @@ if (import.meta.env.PROD && !umamiWebsiteId) {
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={new URL("/og-card.png", canonical)} />
 		<title>{title}</title>
-		<slot name="head" />
 		<script is:inline type="application/ld+json" set:html={JSON.stringify({
 			"@context": "https://schema.org",
 			"@type": "SoftwareApplication",

@@ -1,4 +1,6 @@
 ---
+import "@fontsource-variable/dm-sans";
+import "@fontsource-variable/manrope";
 import "../styles/homepage.css";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
@@ -8,14 +10,6 @@ const description =
 ---
 
 <BaseLayout {title} {description}>
-	<link slot="head" rel="preconnect" href="https://fonts.googleapis.com" />
-	<link slot="head" rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-	<link
-		slot="head"
-		rel="stylesheet"
-		href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&amp;family=Manrope:wght@400;600;700;800&amp;display=optional"
-	/>
-
 <header class="wrap nav"><a class="wordmark" href="#" aria-label="Hevy MCP home">hevy<span>/mcp</span></a><nav aria-label="Main navigation"><a href="#possibilities">What it does</a><a href="#how">How it works</a><a class="nav-cta" href="#setup">Set up <span aria-hidden="true">↗</span></a></nav></header>
 <main id="main-content">
 <section class="hero wrap">

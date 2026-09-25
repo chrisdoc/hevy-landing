@@ -23,14 +23,16 @@ tabs.forEach((tab, index) => {
   });
 });
 document.querySelectorAll('[data-copy]').forEach(button => {
+  const label = button.textContent;
+  let resetTimer;
   button.addEventListener('click', async () => {
+    clearTimeout(resetTimer);
     const target = document.getElementById(button.dataset.copy);
     const status = document.getElementById('copy-status');
-    const label = button.textContent;
     try {
       await navigator.clipboard.writeText(target.textContent.trim());
       button.textContent = 'Copied!'; status.textContent = 'Copied to clipboard.';
-      setTimeout(() => { button.textContent = label; }, 1800);
+      resetTimer = setTimeout(() => { button.textContent = label; }, 1800);
     } catch {
       const selection = window.getSelection(); const range = document.createRange();
       range.selectNodeContents(target); selection.removeAllRanges(); selection.addRange(range);
